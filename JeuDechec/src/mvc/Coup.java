@@ -6,7 +6,7 @@ public class Coup {
   public Position fin;
 
   public Integer getEtatCoup() {
-  return null;
+	  return null;
   }
 
 }
