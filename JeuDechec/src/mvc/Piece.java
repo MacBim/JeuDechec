@@ -17,5 +17,6 @@ public abstract class Piece {
   public abstract void appliquerCoup(Coup coup);
 
   public abstract void coupValide(Coup coup);
+  
 
 }
