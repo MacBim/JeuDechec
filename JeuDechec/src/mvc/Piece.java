@@ -1,22 +1,16 @@
 package mvc;
-import java.util.Vector;
 
 public abstract class Piece {
 
   public Boolean vivante;
+  public Position position;
 
-  public Position getAvailablePosition(Coup coup) {
-  return null;
-  }
+  public abstract Position getAvailablePosition(Coup coup);
 
-  public Boolean getDirValide(Coup coup) {
-  return null;
-  }
+  public abstract Boolean getDirValide(Coup coup);
 
-  public void appliquerCoup(Coup coup) {
-  }
+  public abstract void appliquerCoup(Coup coup);
 
-  public void coupValide(Coup coup) {
-  }
+  public abstract void coupValide(Coup coup);
 
 }

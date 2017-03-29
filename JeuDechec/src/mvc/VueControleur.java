@@ -12,6 +12,7 @@ import java.util.Observer;
 import javafx.application.Application;
 
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.effect.Blend;
 import javafx.scene.effect.DropShadow;
@@ -53,66 +54,26 @@ public class VueControleur extends Application {
         // permet de placer les diffrents boutons dans une grille
         GridPane gPane = new GridPane();
         
-        int column = 0;
-        int row = 0;
-        
-//        
-//        affichage = new Text("");
-//        affichage.setFont(Font.font ("Verdana", 20));
-//        affichage.setFill(Color.RED);
-//        border.setTop(affichage);
-//        
-//        // la vue observe les "update" du modèle, et réalise les mises à jour graphiques
-//        m.addObserver(new Observer() {
-//            
-//            @Override
-//            public void update(Observable o, Object arg) {
-//                if (!m.getErr()) {
-//                    affichage.setText(m.getValue() + "");
-//                } else {
-//                    affichage.setText("Err");
-//                }
-//            }
-//        });
-//        
-//        // on efface affichage lors du clic
-//        affichage.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            
-//            @Override
-//            public void handle(MouseEvent event) {
-//                affichage.setText("");
-//            }
-//            
-//        });
         
         // cr�ation de la grille
         int compt = 0;
-        int x = 0;
         int ybis = 0;
-        for(x = 0; x < 8; x++){
+        for(int x = 0; x < 8; x++){
         	for(int y = 0; y < 8; y++){
         		
-        		Text t = new Text();
-        		t.setStyle("-fx-background-color: #000000;");
-        		t.setWrappingWidth(30);
-        		t.setFont(Font.font ("Verdana", 20));
-        		t.setTextAlignment(TextAlignment.CENTER);
+        		Group g = new Group();
         		
         		Rectangle rect = new Rectangle();
         		rect.setWidth(80);
         		rect.setHeight(80);
-        		System.out.println(compt%2 +" "+ compt);
         		if(compt%2 == 0){
-        			//rect.setStroke(Color.WHITE);
-        			t.setText("B");
         			rect.setFill(Color.WHITE);
         		} else {
-        			//rect.setStroke(Color.BLACK);
-        			t.setText("N");
         			rect.setFill(Color.BLACK);
         		}
         		compt++;
-
+        		
+        		g.getChildren().add(rect);
         		
         		gPane.add(rect, x, y);
         	}
@@ -123,49 +84,6 @@ public class VueControleur extends Application {
         	ybis++;
         	
         }
-//        for (String s : new String[]{"7", "8", "9", "/", "4", "5", "6", "*", "1", "2", "3", "+", "0", "(", ")"}) {
-//            final Text t = new Text(s);
-//            t.setWrappingWidth(30);
-//            t.setFont(Font.font ("Verdana", 20));
-//            t.setTextAlignment(TextAlignment.CENTER);
-//            
-//            gPane.add(t, column++, row);
-//            
-//            if (column > 3) {
-//                column = 0;
-//                row++;
-//            }
-//            
-//            // un controleur (EventHandler) par bouton écoute et met à jour le champ affichage
-//            t.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//                
-//                @Override
-//                public void handle(MouseEvent event) {
-//                    affichage.setText(affichage.getText() + t.getText());
-//                }
-//                
-//            });
-//            
-//            
-//            
-//        }
-        
-        
-//        
-//        final Text t = new Text("=");
-//        t.setWrappingWidth(30);
-//        gPane.add(t, column++, row);
-//        t.setTextAlignment(TextAlignment.CENTER);
-//        //t.setEffect(new Shadow());
-//        
-//        // un controleur écoute le bouton "=" et déclenche l'appel du modèle
-//        t.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            
-//            @Override
-//            public void handle(MouseEvent event) {
-//                m.calc(affichage.getText());
-//            }
-//        });
         
         gPane.setGridLinesVisible(true);
         
