@@ -1,6 +1,10 @@
 package mvc;
 public class Tour extends Piece {
 
+	
+	public Tour(boolean couleur){
+		this.couleur = couleur;
+	}
 	@Override
 	public Position getAvailablePosition(Coup coup) {
 		// TODO Auto-generated method stub
@@ -8,9 +12,9 @@ public class Tour extends Piece {
 	}
 
 	@Override
-	public Boolean getDirValide(Coup coup) {
+	public boolean getDirValide(Coup coup) {
 		// TODO Auto-generated method stub
-		return null;
+		return false;
 	}
 
 	@Override

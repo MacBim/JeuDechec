@@ -2,7 +2,13 @@ package mvc;
 
 public class Joueur {
 
-    public Partie myPartie;
+    public Partie partie;
+    public Piece[] pieces;
+    
+    public Joueur(Partie partie){
+    	this.partie = partie;
+    	
+    }
    
 
 }

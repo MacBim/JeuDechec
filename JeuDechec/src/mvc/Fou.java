@@ -2,6 +2,11 @@ package mvc;
 
 public class Fou extends Piece {
 
+	public Fou(boolean couleur) {
+		// TODO Auto-generated constructor stub
+		this.couleur = couleur;
+	}
+
 	@Override
 	public Position getAvailablePosition(Coup coup) {
 		// TODO Auto-generated method stub
@@ -9,9 +14,9 @@ public class Fou extends Piece {
 	}
 
 	@Override
-	public Boolean getDirValide(Coup coup) {
+	public boolean getDirValide(Coup coup) {
 		// TODO Auto-generated method stub
-		return null;
+		return false;
 	}
 
 	@Override

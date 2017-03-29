@@ -1,6 +1,11 @@
 package mvc;
 public class Pion extends Piece {
 
+	public Pion(boolean couleur) {
+		// TODO Auto-generated constructor stub
+		this.couleur = couleur;
+	}
+
 	@Override
 	public Position getAvailablePosition(Coup coup) {
 		// TODO Auto-generated method stub
@@ -8,9 +13,9 @@ public class Pion extends Piece {
 	}
 
 	@Override
-	public Boolean getDirValide(Coup coup) {
+	public boolean getDirValide(Coup coup) {
 		// TODO Auto-generated method stub
-		return null;
+		return false;
 	}
 
 	@Override
