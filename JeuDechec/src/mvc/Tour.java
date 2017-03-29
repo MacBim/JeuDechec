@@ -32,7 +32,7 @@ public class Tour extends Piece {
 		
 		xtmp = this.position.x;
 		ytmp = this.position.y;
-		/* Pour les Y qui monte */
+		/* Pour les Y qui descende */
 		while(this.plateau.pieces[xtmp][ytmp--] != null && ytmp < 8 ){
 			pos[pos.length] = new Position(xtmp, ytmp);
 		}
