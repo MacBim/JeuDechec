@@ -12,6 +12,7 @@ import mvc.libInterpreteurExpr.Node;
  *
  * @author fred
  */
+// AKA Calculatrice
 public class Modele extends Observable {
 
     double lastValue;
