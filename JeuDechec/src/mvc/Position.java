@@ -1,4 +1,4 @@
-import java.util.Vector;
+package mvc;
 
 public class Position {
 
@@ -6,6 +6,5 @@ public class Position {
 
   public Integer y;
 
-    public Vector  myPièce;
 
 }

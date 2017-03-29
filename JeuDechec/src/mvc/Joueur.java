@@ -1,27 +1,8 @@
-import java.util.Vector;
+package mvc;
 
 public class Joueur {
 
     public Partie myPartie;
-    /**
-   * 
-   * @element-type Pièce
-   */
-  public Vector  myPièce;
-    /**
-   * 
-   * @element-type Pièce
-   */
-  public Vector  myPièce;
-    /**
-   * 
-   * @element-type Pièce
-   */
-  public Vector  myPièce;
-    /**
-   * 
-   * @element-type Pièce
-   */
-  public Vector  myPièce;
+   
 
 }

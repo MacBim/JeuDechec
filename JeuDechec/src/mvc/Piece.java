@@ -1,6 +1,7 @@
+package mvc;
 import java.util.Vector;
 
-public abstract class Pièce {
+public abstract class Piece {
 
   public Boolean vivante;
 

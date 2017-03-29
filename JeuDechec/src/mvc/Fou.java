@@ -1,2 +1,4 @@
-public class Fou extends Pièce {
+package mvc;
+
+public class Fou extends Piece {
 }

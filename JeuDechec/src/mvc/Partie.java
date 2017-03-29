@@ -1,13 +1,8 @@
-import java.util.Vector;
+package mvc;
 
 public class Partie {
 
-    /**
-   * 
-   * @element-type Joueur
-   */
-  public Vector  myJoueur;
-    public Plateau myPlateau;
+  public Plateau myPlateau;
 
   public void start() {
   }
@@ -16,7 +11,7 @@ public class Partie {
   return null;
   }
 
-  public Pièce getPieceDep() {
+  public Piece getPieceDep() {
   return null;
   }
 

@@ -1,2 +1,3 @@
-public class Reine extends Pièce {
+package mvc;
+public class Reine extends Piece {
 }

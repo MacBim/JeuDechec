@@ -1,2 +1,3 @@
-public class Tour extends Pièce {
+package mvc;
+public class Tour extends Piece {
 }

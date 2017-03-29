@@ -1,2 +1,3 @@
-public class Roi extends Pièce {
+package mvc;
+public class Roi extends Piece {
 }

@@ -1,3 +1,4 @@
+package mvc;
 public class Coup {
 
   public Position debut;

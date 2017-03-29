@@ -1,2 +1,4 @@
-public class Cavalier extends Pièce {
+package mvc;
+
+public class Cavalier extends Piece {
 }

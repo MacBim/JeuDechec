@@ -1,2 +1,3 @@
-public class Pion extends Pièce {
+package mvc;
+public class Pion extends Piece {
 }

@@ -1,8 +1,8 @@
-import java.util.Vector;
+package mvc;
 
 public class Plateau {
 
-  public Pièce Pieces[8][8];
+  public Piece Pieces[8][8];
 
 
 }
