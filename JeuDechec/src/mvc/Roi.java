@@ -4,12 +4,13 @@ public class Roi extends Piece {
 	public Roi(boolean couleur) {
 		// TODO Auto-generated constructor stub
 		this.couleur = couleur;
+		this.nbDeplacementsPossibles = 8;
 	}
 
 	@Override
-	public Position getAvailablePosition(Coup coup) {
-		// TODO Auto-generated method stub
-		return null;
+	public Position[] getAvailablePositions() {
+		Position[] pos = new Position[this.nbDeplacementsPossibles];
+		return pos;
 	}
 
 	@Override

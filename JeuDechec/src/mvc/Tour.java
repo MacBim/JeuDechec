@@ -6,37 +6,54 @@ public class Tour extends Piece {
 		this.plateau = plateau;
 		this.couleur = couleur;
 		this.position = position;
+		this.nbDeplacementsPossibles = 16;
 	}
 	@Override
-	public Position[] getAvailablePositions() {
-		Position[] pos = new Position[16];
+	public Position[] getAvailablePositions() {		
+		Position[] pos = new Position[this.nbDeplacementsPossibles];
 		int xtmp = this.position.x;
 		int ytmp = this.position.y;
+		int i = 0;
 		/* Pour les X a droite */
-		while(this.plateau.pieces[xtmp++][ytmp] != null && xtmp < 8){
-			pos[pos.length] = new Position(xtmp, ytmp);
+		while(xtmp < 8){
+			if(this.plateau.pieces[xtmp + 1][ytmp] == null)
+				pos[i++] = new Position(xtmp++, ytmp);
+			else if (caseOccupable(xtmp + 1, ytmp))
+				pos[i++] = new Position(xtmp++, ytmp);
+			else break;
 		}
 		
 		xtmp = this.position.x;
 		/* Pour les X a gauche */
-		while(this.plateau.pieces[xtmp--][ytmp] != null && xtmp > 0 ){
-			pos[pos.length] = new Position(xtmp, ytmp);
+		while(xtmp > 0){
+			if(this.plateau.pieces[xtmp - 1][ytmp] == null)
+				pos[i++] = new Position(xtmp--, ytmp);
+			else if (caseOccupable(xtmp - 1, ytmp))
+				pos[i++] = new Position(xtmp--, ytmp);
+			else break;
 		}
 		
 		xtmp = this.position.x;
 		ytmp = this.position.y;
 		/* Pour les Y qui monte */
-		while(this.plateau.pieces[xtmp][ytmp++] != null && ytmp > 0 ){
-			pos[pos.length] = new Position(xtmp, ytmp);
+		while(xtmp > 0){
+			if(this.plateau.pieces[xtmp][ytmp - 1] == null)
+				pos[i++] = new Position(xtmp, ytmp--);
+			else if (caseOccupable(xtmp, ytmp - 1))
+				pos[i++] = new Position(xtmp, ytmp--);
+			else break;
 		}
 		
 		xtmp = this.position.x;
 		ytmp = this.position.y;
 		/* Pour les Y qui descende */
-		while(this.plateau.pieces[xtmp][ytmp--] != null && ytmp < 8 ){
-			pos[pos.length] = new Position(xtmp, ytmp);
+		while(xtmp < 8){
+			if(this.plateau.pieces[xtmp][ytmp + 1] == null)
+				pos[i++] = new Position(xtmp, ytmp++);
+			else if (caseOccupable(xtmp, ytmp + 1))
+				pos[i++] = new Position(xtmp, ytmp++);
+			else break;
 		}
-		// TODO Auto-generated method stub
 		return pos;
 	}
 
@@ -56,5 +73,11 @@ public class Tour extends Piece {
 	public void coupValide(Coup coup) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public boolean caseOccupable(int x, int y){
+	if(this.plateau.pieces[x][y].couleur == this.couleur)
+		return false;
+	else return true;
 	}
 }
