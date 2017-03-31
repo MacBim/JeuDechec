@@ -10,6 +10,7 @@ public class Roi extends Piece {
 	@Override
 	public Position[] getAvailablePositions() {
 		Position[] pos = new Position[this.nbDeplacementsPossibles];
+		
 		return pos;
 	}
 
