@@ -17,30 +17,50 @@ public class Fou extends Piece {
 		// On doit parcourire les 4 diagonales qui partent du fou 
 		// jusqu'à ce qu'il sorte du terrain ou rencontre une case occupée.
 		
+		
 		// Diagonale -x -y : 
-		while(this.plateau.pieces[xtmp--][ytmp--] != null && xtmp >= 0 && ytmp >= 0){
-			pos[i++] = new Position(xtmp, ytmp);
+		while(--xtmp < 8 && --ytmp >= 0){
+			if(!encoreDesPositions(xtmp, ytmp, pos, i))
+				break;
 		}
+		
+		xtmp = this.position.x;
+		ytmp = this.position.y;
 		// Diagonale +x -y : 
-		while(this.plateau.pieces[xtmp++][ytmp--] != null && xtmp >= 0 && ytmp >= 0){
-			pos[i++] = new Position(xtmp, ytmp);
+		while(++xtmp < 8 && --ytmp >= 0){
+			if(!encoreDesPositions(xtmp, ytmp, pos, i))
+				break;
 		}
+		
+		xtmp = this.position.x;
+		ytmp = this.position.y;
 		// Diagonale -x +y : 
-		while(this.plateau.pieces[xtmp--][ytmp++] != null && xtmp >= 0 && ytmp >= 0){
-			pos[i++] = new Position(xtmp, ytmp);
+		while(--xtmp >= 0 && ++ytmp < 8){
+			if(!encoreDesPositions(xtmp, ytmp, pos, i))
+				break;
 		}
+		
+		xtmp = this.position.x;
+		ytmp = this.position.y;
 		// Diagonale +x +y : 
-		while(this.plateau.pieces[xtmp++][ytmp++] != null && xtmp >= 0 && ytmp >= 0){
-			pos[i++] = new Position(xtmp, ytmp);
+		while(++xtmp < 8 && ++ytmp < 8){
+			if(!encoreDesPositions(xtmp, ytmp, pos, i))
+				break;
 		}
 		
 		return pos;
 	}
-
-	@Override
-	public boolean getDirValide(Coup coup) {
-		// TODO Auto-generated method stub
-		return false;
+	
+	public boolean encoreDesPositions(int x, int y, Position[] pos, int i) {
+		if(this.plateau.pieces[x][y] == null){
+			pos[i++] = new Position(x, y);
+			return true;
+		}
+		else if(caseOccupable(x, y)){
+			pos[i++] = new Position(x, y);
+			return false;
+		}
+		else return false;
 	}
 
 	@Override
@@ -53,5 +73,12 @@ public class Fou extends Piece {
 	public void coupValide(Coup coup) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	
+	public boolean caseOccupable(int x, int y){
+		if(this.plateau.pieces[x][y].couleur == this.couleur)
+			return false;
+		else return true;
 	}
 }
