@@ -14,7 +14,25 @@ public class Roi extends Piece {
 	@Override
 	public Position[] getAvailablePositions() {
 		Position[] pos = new Position[this.nbDeplacementsMaxPossibles];
-
+		
+		Position[] defaultPositions = {
+			new Position(this.position.x - 1, this.position.y - 1),
+			new Position(this.position.x    , this.position.y - 1),
+			new Position(this.position.x + 1, this.position.y - 1),
+			new Position(this.position.x - 1, this.position.y + 1),
+			new Position(this.position.x    , this.position.y + 1),
+			new Position(this.position.x + 1, this.position.y + 1),
+			new Position(this.position.x - 1, this.position.y),
+			new Position(this.position.x + 1, this.position.y),
+			};
+		
+		int i = 0;
+		for (Position thePosition: defaultPositions){
+			if(caseOccupable(thePosition)){
+				pos[i++] = thePosition;
+			}	
+		}
+		
 		return pos;
 	}
 
@@ -36,9 +54,16 @@ public class Roi extends Piece {
 
 	}
 
-	@Override
-	public boolean caseOccupable(int x, int y) {
-		// TODO Auto-generated method stub
-		return false;
+	
+	public boolean caseOccupable(Position pos) {
+		if (pos.x > 7 || pos.x < 0 || pos.y > 7 || pos.y < 0 )
+			return false;
+		else if (this.plateau.pieces[pos.x][pos.y].couleur == this.couleur)
+			return false;
+		
+		// TODO: Ajouter "else if (EchecEtMath()) return false;"
+		
+		else return true;
+		
 	}
 }
