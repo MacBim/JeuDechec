@@ -60,29 +60,9 @@ public class VueControleur extends Application {
         int ybis = 0;
         for(int x = 0; x < 8; x++){
         	for(int y = 0; y < 8; y++){
-        		
-        		Group g = new Group();
-        		
-        		Rectangle rect = new Rectangle();
-        		rect.setWidth(80);
-        		rect.setHeight(80);
-        		if(compt%2 == 0){
-        			rect.setFill(Color.WHITE);
-        		} else {
-        			rect.setFill(Color.BLACK);
-        		}
-        		compt++;
-        		
-        		g.getChildren().add(rect);
-        		
-        		gPane.add(rect, x, y);
-        	}
-        	if(ybis%2 == 0)
-        		compt = 1;
-        	else
-        		compt = 0;
-        	ybis++;
-        	
+        		Case c = new Case(new Position(x, y));
+        		gPane.add(c.group, x, y);
+        	}        	
         }
         
         gPane.setGridLinesVisible(true);
