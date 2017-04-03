@@ -2,15 +2,18 @@ package mvc;
 
 public class Fou extends Piece {
 
-	public Fou(boolean couleur) {
+	public final static int nbDeplacementsMaxPossibles = 13;
+	
+	public Fou(boolean couleur, Plateau plateau, Position position) {
 		// TODO Auto-generated constructor stub
 		this.couleur = couleur;
-		this.nbDeplacementsPossibles = 13;
+		this.plateau = plateau;
+		this.position = position;
 	}
 
 	@Override
 	public Position[] getAvailablePositions() {
-		Position[] pos = new Position[this.nbDeplacementsPossibles];
+		Position[] pos = new Position[this.nbDeplacementsMaxPossibles];
 		int xtmp = this.position.x;
 		int ytmp = this.position.y;
 		int i = 0;
@@ -80,5 +83,11 @@ public class Fou extends Piece {
 		if(this.plateau.pieces[x][y].couleur == this.couleur)
 			return false;
 		else return true;
+	}
+
+	@Override
+	public boolean getDirValide(Coup coup) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

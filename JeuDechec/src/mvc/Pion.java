@@ -1,75 +1,79 @@
 package mvc;
+
 public class Pion extends Piece {
+
 	boolean premierDeplacement = true;
-	
-	public Pion(boolean couleur) {
+
+	public final static int nbDeplacementsMaxPossibles = 4;
+
+	public Pion(boolean couleur, Plateau plateau, Position position) {
 		// TODO Auto-generated constructor stub
 		this.couleur = couleur;
-		this.nbDeplacementsPossibles = 4;
 		this.plateau = plateau;
+		this.position = position;
 	}
 
 	@Override
 	public Position[] getAvailablePositions() {
-		Position[] pos = new Position[this.nbDeplacementsPossibles];
+		// TODO : what ?
+		Position[] pos = new Position[this.nbDeplacementsMaxPossibles];
 		int i = 0;
-		// On verifie dans quelle direction peut aller le pion en regardant sa couleur
-		if (this.couleur){ //si il est blanc on vérifie qu'il peut allez dans le - y
-			if(premierDeplacement){ //Si c'est le premier tour 
+		// On verifie dans quelle direction peut aller le pion en regardant sa
+		// couleur
+		if (this.couleur == Piece.BLANC) { // si il est blanc on vérifie qu'il
+											// peut allez dans le - y
+			if (premierDeplacement) { // Si c'est le premier tour
 				// Est-ce qu'on peut manger en - x?
-				if(caseOccupable(this.position.x - 1, this.position.y - 1))
+				if (caseOccupable(this.position.x - 1, this.position.y - 1))
 					pos[i++] = new Position(this.position.x, this.position.y - 1);
 				// Est- ce qu'on peut manger en + x
-				if(caseOccupable(this.position.x - 1, this.position.y - 1))
+				if (caseOccupable(this.position.x - 1, this.position.y - 1))
 					pos[i++] = new Position(this.position.x, this.position.y - 1);
-				
+
 				// Est ce qu'on peut allez devant?
-				if(caseOccupable(this.position.x, this.position.y - 1))
+				if (caseOccupable(this.position.x, this.position.y - 1))
 					pos[i++] = new Position(this.position.x, this.position.y - 1);
-					if(caseOccupable(this.position.x, this.position.y - 2))
-						pos[i++] = new Position(this.position.x, this.position.y - 2);
+				if (caseOccupable(this.position.x, this.position.y - 2))
+					pos[i++] = new Position(this.position.x, this.position.y - 2);
+			} else {
+				// Est-ce qu'on peut manger en - x?
+				if (caseOccupable(this.position.x - 1, this.position.y - 1))
+					pos[i++] = new Position(this.position.x, this.position.y - 1);
+				// Est- ce qu'on peut manger en + x
+				if (caseOccupable(this.position.x - 1, this.position.y - 1))
+					pos[i++] = new Position(this.position.x, this.position.y - 1);
+
+				// Est ce qu'on peut allez devant?
+				if (caseOccupable(this.position.x, this.position.y - 1))
+					pos[i++] = new Position(this.position.x, this.position.y - 1);
 			}
-			else{
+		} else { // si il est noir on vérifie qu'il peut allez dans le + y
+			if (premierDeplacement) { // Si c'est le premier tour
 				// Est-ce qu'on peut manger en - x?
-				if(caseOccupable(this.position.x - 1, this.position.y - 1))
-					pos[i++] = new Position(this.position.x, this.position.y - 1);
+				if (caseOccupable(this.position.x - 1, this.position.y + 1))
+					pos[i++] = new Position(this.position.x, this.position.y + 1);
 				// Est- ce qu'on peut manger en + x
-				if(caseOccupable(this.position.x - 1, this.position.y - 1))
-					pos[i++] = new Position(this.position.x, this.position.y - 1);
-				
+				if (caseOccupable(this.position.x - 1, this.position.y + 1))
+					pos[i++] = new Position(this.position.x, this.position.y + 1);
+
 				// Est ce qu'on peut allez devant?
-				if(caseOccupable(this.position.x, this.position.y - 1))
-					pos[i++] = new Position(this.position.x, this.position.y - 1);
+				if (caseOccupable(this.position.x, this.position.y + 1))
+					pos[i++] = new Position(this.position.x, this.position.y + 1);
+				if (caseOccupable(this.position.x, this.position.y + 2))
+					pos[i++] = new Position(this.position.x, this.position.y + 2);
+
+			} else {
+				// Est-ce qu'on peut manger en - x?
+				if (caseOccupable(this.position.x - 1, this.position.y + 1))
+					pos[i++] = new Position(this.position.x, this.position.y + 1);
+				// Est- ce qu'on peut manger en + x
+				if (caseOccupable(this.position.x - 1, this.position.y + 1))
+					pos[i++] = new Position(this.position.x, this.position.y + 1);
+				// Est ce qu'on peut allez devant?
+				if (caseOccupable(this.position.x, this.position.y + 1))
+					pos[i++] = new Position(this.position.x, this.position.y + 1);
+
 			}
-		}
-		else{ //si il est noir on vérifie qu'il peut allez dans le + y
-			if(premierDeplacement){ //Si c'est le premier tour 
-				// Est-ce qu'on peut manger en - x?
-				if(caseOccupable(this.position.x - 1, this.position.y + 1))
-					pos[i++] = new Position(this.position.x, this.position.y + 1);
-				// Est- ce qu'on peut manger en + x
-				if(caseOccupable(this.position.x - 1, this.position.y + 1))
-					pos[i++] = new Position(this.position.x, this.position.y + 1);
-				
-				// Est ce qu'on peut allez devant?
-				if(caseOccupable(this.position.x, this.position.y + 1))
-					pos[i++] = new Position(this.position.x, this.position.y + 1);
-					if(caseOccupable(this.position.x, this.position.y + 2))
-						pos[i++] = new Position(this.position.x, this.position.y + 2);
-				
-			}
-			else{
-				// Est-ce qu'on peut manger en - x?
-				if(caseOccupable(this.position.x - 1, this.position.y + 1))
-					pos[i++] = new Position(this.position.x, this.position.y + 1);
-				// Est- ce qu'on peut manger en + x
-				if(caseOccupable(this.position.x - 1, this.position.y + 1))
-					pos[i++] = new Position(this.position.x, this.position.y + 1);
-				// Est ce qu'on peut allez devant?
-				if(caseOccupable(this.position.x, this.position.y + 1))
-					pos[i++] = new Position(this.position.x, this.position.y + 1);
-					
-			}	
 		}
 		return pos;
 	}
@@ -83,30 +87,32 @@ public class Pion extends Piece {
 	@Override
 	public void appliquerCoup(Coup coup) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void coupValide(Coup coup) {
-		
+
 	}
-	
+
 	@Override
-	public boolean caseOccupable(int x, int y){
-		if(x > 7 || y > 7 || y < 0 || x < 0)
+	public boolean caseOccupable(int x, int y) {
+		if (x > 7 || y > 7 || y < 0 || x < 0)
 			return false;
 		// Le cas ou c'est une case de devant:
-		if(x == this.position.y + 1 || x == this.position.y - 1 || x == this.position.y + 2 || x == this.position.y - 2 )
-			if(this.plateau.pieces[x][y] != null)
+		if (x == this.position.y + 1 || x == this.position.y - 1 || x == this.position.y + 2
+				|| x == this.position.y - 2)
+			if (this.plateau.pieces[x][y] != null)
 				return true;
 			else
 				return false;
-		// Si on est dans le cas o`u on veut manger une piece adverse : 
-		else if(this.plateau.pieces[x][y] != null)
-			if(this.plateau.pieces[x][y].couleur == this.plateau.pieces[this.position.x][this.position.y].couleur)
+		// Si on est dans le cas o`u on veut manger une piece adverse :
+		else if (this.plateau.pieces[x][y] != null)
+			if (this.plateau.pieces[x][y].couleur == this.plateau.pieces[this.position.x][this.position.y].couleur)
 				return false;
 			else
 				return true;
-		else return false;
+		else
+			return false;
 	}
 }

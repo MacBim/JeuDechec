@@ -13,7 +13,7 @@ import mvc.libInterpreteurExpr.Node;
  * @author fred
  */
 // AKA Calculatrice
-public class Modele extends Observable {
+public class Calc_Modele extends Observable {
 
     double lastValue;
     boolean err = false;

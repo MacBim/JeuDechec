@@ -2,17 +2,21 @@ package mvc;
 
 public class Partie {
 
-  public Plateau myPlateau;
+	public Plateau plateau;
+	
+	public Partie(Plateau plateau){
+		this.plateau = plateau;
+	}
 
-  public void start() {
-  }
+	public void start() {
+	}
 
-  public Boolean coupValide(Coup coup) {
-  return null;
-  }
+	public Boolean coupValide(Coup coup) {
+		return null;
+	}
 
-  public Piece getPieceDep() {
-  return null;
-  }
+	public Piece getPieceDep() {
+		return null;
+	}
 
 }

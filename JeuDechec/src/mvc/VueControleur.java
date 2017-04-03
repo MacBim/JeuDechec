@@ -38,7 +38,7 @@ import javafx.scene.text.TextAlignment;
 public class VueControleur extends Application {
     
     // modèle : ce qui réalise le calcule de l'expression
-    Modele m;
+    Calc_Modele m;
     // affiche la saisie et le résultat
     Text affichage;
     
@@ -46,7 +46,7 @@ public class VueControleur extends Application {
     public void start(Stage primaryStage) {
         
         // initialisation du modèle que l'on souhaite utiliser
-        m = new Modele();
+        m = new Calc_Modele();
         
         // gestion du placement (permet de palcer le champ Text affichage en haut, et GridPane gPane au centre)
         BorderPane border = new BorderPane();
@@ -101,6 +101,7 @@ public class VueControleur extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+        Partie partie = new Partie(new Plateau());
     }
     
 }
