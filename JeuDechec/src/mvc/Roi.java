@@ -66,4 +66,10 @@ public class Roi extends Piece {
 		else return true;
 		
 	}
+
+	@Override
+	public boolean caseOccupable(int x, int y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

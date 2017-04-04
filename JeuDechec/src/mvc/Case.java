@@ -24,5 +24,7 @@ public class Case {
 		rect.setFill(this.couleur);
 		
 		this.group.getChildren().add(rect);
+		
+		
 	}
 }

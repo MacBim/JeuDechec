@@ -55,7 +55,7 @@ public class VueControleur extends Application {
         GridPane gPane = new GridPane();
         
         
-        // création de la grille
+        // creation de la grille
         int compt = 0;
         int ybis = 0;
         for(int x = 0; x < 8; x++){

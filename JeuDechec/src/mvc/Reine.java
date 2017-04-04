@@ -121,6 +121,18 @@ public class Reine extends Piece {
 		
 		return pos;
 	}
+	
+	public boolean encoreDesPositions(int x, int y, Position[] pos, int i) {
+		if(this.plateau.pieces[x][y] == null){
+			pos[i++] = new Position(x, y);
+			return true;
+		}
+		else if(caseOccupable(x, y)){
+			pos[i++] = new Position(x, y);
+			return false;
+		}
+		else return false;
+	}
 
 	@Override
 	public boolean caseOccupable(int x, int y) {
@@ -129,5 +141,5 @@ public class Reine extends Piece {
 		else
 			return true;
 	}
-	}
+	
 }

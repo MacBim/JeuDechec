@@ -6,6 +6,7 @@ public abstract class Piece {
 	public Position position;
 	public boolean couleur;
 	public Plateau plateau;
+	public String imagePath;
 
 	public final static boolean BLANC = true;
 	public final static boolean NOIR = false;
