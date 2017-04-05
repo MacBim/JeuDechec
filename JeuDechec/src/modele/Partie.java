@@ -76,6 +76,7 @@ public class Partie extends Observable {
 				this.plateau.cases[x][y].highlightCase();
 			}
 		}
+		notifyAllObservers();
 	}
 	
 	

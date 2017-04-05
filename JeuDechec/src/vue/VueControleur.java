@@ -91,13 +91,16 @@ public class VueControleur extends Application implements ObserveurEchec{
     }
 
     public void updateVue(){
-    	System.out.println("j'update la vuuuuuuuuuuuuuuuuuuue");
     	Plateau p = this.partie.plateau;
     	for(int x = 0; x < 8; x++){
     		for(int y = 0; y < 8; y++){
     			if(p.cases[x][y].piece != null){
     				for(int i = this.groups[x][y].getChildren().size()-1; i > 0; i--){
     					this.groups[x][y].getChildren().remove(i);
+    				}
+    				
+    				if(p.cases[x][y].isLit){
+    					((Rectangle) this.groups[x][y].getChildren().get(0)).setFill(Color.GREENYELLOW);
     				}
     				
     				ImageView img = new ImageView(p.cases[x][y].piece.imagePath);

@@ -8,6 +8,7 @@ public class Roi extends Piece {
 		// TODO Auto-generated constructor stub
 		this.couleur = couleur;
 		this.plateau = plateau;
+		this.position = position;
 		setImagePath();
 	}
 
