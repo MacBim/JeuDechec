@@ -1,4 +1,4 @@
-package mvc;
+package modele;
 
 public class Pion extends Piece {
 
@@ -11,6 +11,7 @@ public class Pion extends Piece {
 		this.couleur = couleur;
 		this.plateau = plateau;
 		this.position = position;
+		setImagePath();
 	}
 
 	@Override
@@ -102,13 +103,13 @@ public class Pion extends Piece {
 		// Le cas ou c'est une case de devant:
 		if (x == this.position.y + 1 || x == this.position.y - 1 || x == this.position.y + 2
 				|| x == this.position.y - 2)
-			if (this.plateau.pieces[x][y] != null)
+			if (this.plateau.cases[x][y].piece != null)
 				return true;
 			else
 				return false;
 		// Si on est dans le cas o`u on veut manger une piece adverse :
-		else if (this.plateau.pieces[x][y] != null)
-			if (this.plateau.pieces[x][y].couleur == this.plateau.pieces[this.position.x][this.position.y].couleur)
+		else if (this.plateau.cases[x][y].piece != null)
+			if (this.plateau.cases[x][y].piece.couleur == this.plateau.cases[this.position.x][this.position.y].piece.couleur)
 				return false;
 			else
 				return true;

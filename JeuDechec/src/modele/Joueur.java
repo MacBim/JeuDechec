@@ -1,4 +1,4 @@
-package mvc;
+package modele;
 
 public class Joueur {
 

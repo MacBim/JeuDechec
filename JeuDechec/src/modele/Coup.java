@@ -1,4 +1,4 @@
-package mvc;
+package modele;
 public class Coup {
 
   public Position debut;

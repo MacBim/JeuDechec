@@ -1,4 +1,4 @@
-package mvc;
+package modele;
 
 public class Roi extends Piece {
 
@@ -8,7 +8,7 @@ public class Roi extends Piece {
 		// TODO Auto-generated constructor stub
 		this.couleur = couleur;
 		this.plateau = plateau;
-		this.position = position;
+		setImagePath();
 	}
 
 	@Override
@@ -58,12 +58,12 @@ public class Roi extends Piece {
 	public boolean caseOccupable(Position pos) {
 		if (pos.x > 7 || pos.x < 0 || pos.y > 7 || pos.y < 0 )
 			return false;
-		else if (this.plateau.pieces[pos.x][pos.y].couleur == this.couleur)
+		else if (this.plateau.cases[pos.x][pos.y].piece.couleur== this.couleur)
 			return false;
 		
 		// TODO: Ajouter "else if (EchecEtMath()) return false;"
 		
-		else return true;
+		return true;
 		
 	}
 

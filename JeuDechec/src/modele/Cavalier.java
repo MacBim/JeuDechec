@@ -1,4 +1,4 @@
-package mvc;
+package modele;
 
 public class Cavalier extends Piece {
 
@@ -9,6 +9,7 @@ public class Cavalier extends Piece {
 		this.couleur = couleur;
 		this.position = position;
 		this.plateau = plateau;
+		setImagePath();
 	}
 
 	@Override
@@ -76,12 +77,13 @@ public class Cavalier extends Piece {
 
 	@Override
 	public boolean caseOccupable(int x, int y) {
-		if (this.plateau.pieces[x][y] != null) {
-			if (this.plateau.pieces[x][y].couleur == this.couleur)
+		if (this.plateau.cases[x][y].piece != null) {
+			if (this.plateau.cases[x][y].piece.couleur == this.couleur)
 				return false;
 			else
 				return true;
 		} else
 			return true;
 	}
+
 }

@@ -1,4 +1,4 @@
-package mvc;
+package modele;
 
 public class Fou extends Piece {
 
@@ -9,6 +9,7 @@ public class Fou extends Piece {
 		this.couleur = couleur;
 		this.plateau = plateau;
 		this.position = position;
+		setImagePath();
 	}
 
 	@Override
@@ -55,7 +56,7 @@ public class Fou extends Piece {
 	}
 	
 	public boolean encoreDesPositions(int x, int y, Position[] pos, int i) {
-		if(this.plateau.pieces[x][y] == null){
+		if(this.plateau.cases[x][y].piece == null){
 			pos[i++] = new Position(x, y);
 			return true;
 		}
@@ -80,9 +81,9 @@ public class Fou extends Piece {
 	
 	
 	public boolean caseOccupable(int x, int y){
-		if(this.plateau.pieces[x][y].couleur == this.couleur)
+		if(this.plateau.cases[x][y].piece.couleur == this.couleur)
 			return false;
-		else return true;
+		return true;
 	}
 
 	@Override

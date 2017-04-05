@@ -1,4 +1,4 @@
-package mvc;
+package modele;
 
 public class Reine extends Piece {
 
@@ -9,6 +9,8 @@ public class Reine extends Piece {
 		this.couleur = couleur;
 		this.plateau = plateau;
 		this.position = position;
+		setImagePath();
+		
 	}
 
 	@Override
@@ -40,7 +42,7 @@ public class Reine extends Piece {
 		/* Pour les X a droite */
 		while (xtmp < 8) 
 		{
-			if (this.plateau.pieces[xtmp + 1][ytmp] == null)
+			if (this.plateau.cases[xtmp + 1][ytmp].piece == null)
 				pos[i++] = new Position(xtmp++, ytmp);
 			else if (caseOccupable(xtmp + 1, ytmp))
 				pos[i++] = new Position(xtmp++, ytmp);
@@ -51,7 +53,7 @@ public class Reine extends Piece {
 		xtmp = this.position.x;
 		/* Pour les X a gauche */
 		while (xtmp > 0) {
-			if (this.plateau.pieces[xtmp - 1][ytmp] == null)
+			if (this.plateau.cases[xtmp - 1][ytmp].piece == null)
 				pos[i++] = new Position(xtmp--, ytmp);
 			else if (caseOccupable(xtmp - 1, ytmp))
 				pos[i++] = new Position(xtmp--, ytmp);
@@ -63,7 +65,7 @@ public class Reine extends Piece {
 		ytmp = this.position.y;
 		/* Pour les Y qui monte */
 		while (xtmp > 0) {
-			if (this.plateau.pieces[xtmp][ytmp - 1] == null)
+			if (this.plateau.cases[xtmp][ytmp - 1].piece == null)
 				pos[i++] = new Position(xtmp, ytmp--);
 			else if (caseOccupable(xtmp, ytmp - 1))
 				pos[i++] = new Position(xtmp, ytmp--);
@@ -75,7 +77,7 @@ public class Reine extends Piece {
 		ytmp = this.position.y;
 		/* Pour les Y qui descende */
 		while (xtmp < 8) {
-			if (this.plateau.pieces[xtmp][ytmp + 1] == null)
+			if (this.plateau.cases[xtmp][ytmp + 1].piece == null)
 				pos[i++] = new Position(xtmp, ytmp++);
 			else if (caseOccupable(xtmp, ytmp + 1))
 				pos[i++] = new Position(xtmp, ytmp++);
@@ -123,7 +125,7 @@ public class Reine extends Piece {
 	}
 	
 	public boolean encoreDesPositions(int x, int y, Position[] pos, int i) {
-		if(this.plateau.pieces[x][y] == null){
+		if(this.plateau.cases[x][y].piece == null){
 			pos[i++] = new Position(x, y);
 			return true;
 		}
@@ -136,10 +138,9 @@ public class Reine extends Piece {
 
 	@Override
 	public boolean caseOccupable(int x, int y) {
-		if (this.plateau.pieces[x][y].couleur == this.couleur)
+		if (this.plateau.cases[x][y].piece.couleur == this.couleur)
 			return false;
-		else
-			return true;
+		return true;
 	}
 	
 }

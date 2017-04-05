@@ -1,4 +1,4 @@
-package mvc;
+package modele;
 
 public class Tour extends Piece {
 
@@ -8,6 +8,7 @@ public class Tour extends Piece {
 		this.plateau = plateau;
 		this.couleur = couleur;
 		this.position = position;
+		setImagePath();
 	}
 
 	@Override
@@ -18,7 +19,7 @@ public class Tour extends Piece {
 		int i = 0;
 		/* Pour les X a droite */
 		while (xtmp < 8) {
-			if (this.plateau.pieces[xtmp + 1][ytmp] == null)
+			if (this.plateau.cases[xtmp + 1][ytmp].piece == null)
 				pos[i++] = new Position(xtmp++, ytmp);
 			else if (caseOccupable(xtmp + 1, ytmp))
 				pos[i++] = new Position(xtmp++, ytmp);
@@ -29,7 +30,7 @@ public class Tour extends Piece {
 		xtmp = this.position.x;
 		/* Pour les X a gauche */
 		while (xtmp > 0) {
-			if (this.plateau.pieces[xtmp - 1][ytmp] == null)
+			if (this.plateau.cases[xtmp - 1][ytmp].piece == null)
 				pos[i++] = new Position(xtmp--, ytmp);
 			else if (caseOccupable(xtmp - 1, ytmp))
 				pos[i++] = new Position(xtmp--, ytmp);
@@ -41,7 +42,7 @@ public class Tour extends Piece {
 		ytmp = this.position.y;
 		/* Pour les Y qui monte */
 		while (xtmp > 0) {
-			if (this.plateau.pieces[xtmp][ytmp - 1] == null)
+			if (this.plateau.cases[xtmp][ytmp - 1].piece == null)
 				pos[i++] = new Position(xtmp, ytmp--);
 			else if (caseOccupable(xtmp, ytmp - 1))
 				pos[i++] = new Position(xtmp, ytmp--);
@@ -53,7 +54,7 @@ public class Tour extends Piece {
 		ytmp = this.position.y;
 		/* Pour les Y qui descende */
 		while (xtmp < 8) {
-			if (this.plateau.pieces[xtmp][ytmp + 1] == null)
+			if (this.plateau.cases[xtmp][ytmp + 1].piece == null)
 				pos[i++] = new Position(xtmp, ytmp++);
 			else if (caseOccupable(xtmp, ytmp + 1))
 				pos[i++] = new Position(xtmp, ytmp++);
@@ -82,9 +83,8 @@ public class Tour extends Piece {
 	}
 
 	public boolean caseOccupable(int x, int y) {
-		if (this.plateau.pieces[x][y].couleur == this.couleur)
+		if (this.plateau.cases[x][y].piece.couleur == this.couleur)
 			return false;
-		else
-			return true;
+		return true;
 	}
 }
