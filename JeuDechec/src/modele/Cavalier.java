@@ -77,6 +77,8 @@ public class Cavalier extends Piece {
 
 	@Override
 	public boolean caseOccupable(int x, int y) {
+		if (x > 7 || y > 7 || y < 0 || x < 0)
+			return false;
 		if (this.plateau.cases[x][y].piece != null) {
 			if (this.plateau.cases[x][y].piece.couleur == this.couleur)
 				return false;

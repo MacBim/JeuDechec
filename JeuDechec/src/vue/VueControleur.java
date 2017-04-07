@@ -6,7 +6,6 @@
  */
 package vue;
 
-
 import javafx.application.Application;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -26,104 +25,106 @@ import modele.Plateau;
  *
  * @author lol
  */
-public class VueControleur extends Application implements ObserveurEchec{
-	
+public class VueControleur extends Application implements ObserveurEchec {
+
 	private Group[][] groups = new Group[8][8];
 	private Partie partie;
-	
-	
-    @Override
-    public void start(Stage primaryStage) {
-        // gestion du placement (permet de palcer le champ Text affichage en haut, et GridPane gPane au centre)
-        BorderPane border = new BorderPane();
-        
-        // permet de placer les diffrents boutons dans une grille
-        GridPane gPane = new GridPane();
-        
-        
-        for(int x = 0; x < 8; x++){
-        	for(int y = 0; y < 8; y++){
-        		
-        		Rectangle r = new Rectangle(80,80);
-        		int positionSum = x + y;
-        		if(positionSum%2 == 0){
-        			r.setFill(Color.WHITE);
-        		} else {
-        			r.setFill(Color.LIGHTBLUE);
-        		}
 
-        		this.groups[x][y] = new Group();
-        		this.groups[x][y].getChildren().add(r);
-        		
-        		final int col = x;
-        		final int lig = y;
-        		
-        		this.groups[x][y].setOnMouseClicked(new EventHandler<Event>() {
+	@Override
+	public void start(Stage primaryStage) {
+		// gestion du placement (permet de palcer le champ Text affichage en
+		// haut, et GridPane gPane au centre)
+		BorderPane border = new BorderPane();
+
+		// permet de placer les diffrents boutons dans une grille
+		GridPane gPane = new GridPane();
+
+		for (int x = 0; x < 8; x++) {
+			for (int y = 0; y < 8; y++) {
+
+				Rectangle r = new Rectangle(80, 80);
+				int positionSum = x + y;
+				if (positionSum % 2 == 0) {
+					r.setFill(Color.WHITE);
+				} else {
+					r.setFill(Color.LIGHTBLUE);
+				}
+
+				this.groups[x][y] = new Group();
+				this.groups[x][y].getChildren().add(r);
+
+				final int col = x;
+				final int lig = y;
+
+				this.groups[x][y].setOnMouseClicked(new EventHandler<Event>() {
 
 					@Override
 					public void handle(Event event) {
 						// TODO Auto-generated method stub
-						partie.onClick(col,lig);
+						partie.onClickPiece(col, lig);
 					}
-        			
-				});
-        		
-        		
-        		gPane.add(this.groups[x][y], x, y);
-        	}        	
-        }
-        
-        System.out.println("groups");
-        
-        gPane.setGridLinesVisible(true);
-        
-        border.setCenter(gPane);
-        
-        Scene scene = new Scene(border, Color.WHITE);
-        
-        primaryStage.setTitle("Echec");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-        this.partie = new Partie();
-        this.partie.subscribe(this);
-        this.partie.remplirPlateau();
-        
-    }
 
-    public void updateVue(){
-    	Plateau p = this.partie.plateau;
-    	for(int x = 0; x < 8; x++){
-    		for(int y = 0; y < 8; y++){
-    			if(p.cases[x][y].piece != null){
-    				for(int i = this.groups[x][y].getChildren().size()-1; i > 0; i--){
-    					this.groups[x][y].getChildren().remove(i);
-    				}
-    				
-    				if(p.cases[x][y].isLit){
-    					((Rectangle) this.groups[x][y].getChildren().get(0)).setFill(Color.GREENYELLOW);
-    				}
-    				
-    				ImageView img = new ImageView(p.cases[x][y].piece.imagePath);
-    				this.groups[x][y].getChildren().add(img);
-    			}
-    		}
-    	}
-    	System.out.println("fin update");
-    }
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
-    }
+				});
+
+				gPane.add(this.groups[x][y], x, y);
+			}
+		}
+		gPane.setGridLinesVisible(true);
+
+		border.setCenter(gPane);
+
+		Scene scene = new Scene(border, Color.WHITE);
+
+		primaryStage.setTitle("Echec");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+		this.partie = new Partie();
+		this.partie.subscribe(this);
+		this.partie.remplirPlateau();
+
+	}
+
+	public void updateVue() {
+		Plateau p = this.partie.plateau;
+		for (int x = 0; x < 8; x++) {
+			for (int y = 0; y < 8; y++) {
+				Rectangle colorRect = ((Rectangle) this.groups[x][y].getChildren().get(0));
+			
+				for (int i = this.groups[x][y].getChildren().size() - 1; i > 0; i--) {
+					this.groups[x][y].getChildren().remove(i);
+				}
+				// Affichage de l'image de la pièce
+				if (p.cases[x][y].piece != null) {
+					ImageView img = new ImageView(p.cases[x][y].piece.imagePath);
+					this.groups[x][y].getChildren().add(img);
+				}
+				
+				// Coloration des cases si isLit
+				if (p.cases[x][y].isLit) {
+					colorRect.setFill(Color.GREENYELLOW);
+				} else {
+					if((x+y)%2 == 0)
+						colorRect.setFill(Color.WHITE);
+					else
+						colorRect.setFill(Color.LIGHTBLUE);
+				}
+
+			}
+		}
+	}
+
+	/**
+	 * @param args
+	 *            the command line arguments
+	 */
+	public static void main(String[] args) {
+		launch(args);
+	}
 
 	@Override
 	public void notifyObserver() {
 		// TODO Auto-generated method stubs
 		updateVue();
-		System.out.println("notify");
 	}
 
-    
 }

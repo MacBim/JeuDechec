@@ -2,12 +2,11 @@ package modele;
 
 import java.util.ArrayList;
 
-import javafx.geometry.Pos;
-
 public class Partie extends Observable {
 
 	public Plateau plateau;
 	public boolean whitesTurn;
+	private Piece lastPieceClicked = null;
 	
 	public Partie(){
 		this.plateau = new Plateau();
@@ -19,7 +18,6 @@ public class Partie extends Observable {
 	}
 
 	public void remplirPlateau(){
-		System.out.println("remplir plat");
 		this.plateau.cases[0][0].addPiece(new Tour(Piece.NOIR,this.plateau,new Position(0, 0)));
 		this.plateau.cases[7][0].addPiece(new Tour(Piece.NOIR,this.plateau,new Position(7, 0)));
 
@@ -64,17 +62,43 @@ public class Partie extends Observable {
 		// TODO Auto-generated method stub
 		
 	}
-	public void onClick(int p_x, int p_y){
+	public void onClickPiece(int p_x, int p_y){
 		Case c = this.plateau.cases[p_x][p_y];
-		if(c.piece == null)
-			return;
-		if(this.whitesTurn == c.piece.couleur){
-			Position[] pos = c.piece.getAvailablePositions();
-			for(Position p : pos){
-				int x = p.x;
-				int y = p.y;
-				this.plateau.cases[x][y].highlightCase();
+		if(!c.isLit){
+			for(int x = 0; x < 8; x++){
+				for(int y = 0; y < 8; y++){
+					this.plateau.cases[x][y].removeHighlight();
+				}
 			}
+			notifyAllObservers();
+			
+			if(c.piece == null)
+				return;
+			this.lastPieceClicked = c.piece;
+			if(this.whitesTurn == c.piece.couleur){
+				Position[] pos = c.piece.getAvailablePositions();
+				System.out.println(pos.length);
+				for(int i = 0; i < pos.length; i++){		
+					if(pos[i] != null){
+						int x = pos[i].x;
+						int y = pos[i].y;
+						this.plateau.cases[x][y].highlightCase();
+					}
+				}
+			}
+		} else {
+			this.whitesTurn = !this.whitesTurn; // on change de tour
+			// on récupere la position de la dernière pièce cliquée
+			int xp = this.lastPieceClicked.position.x;
+			int yp = this.lastPieceClicked.position.y;
+			
+			// on l'enlève de sont ancienne position
+			this.plateau.cases[xp][yp].removePiece();
+			
+			//on met dans la case destination la pièce précedemment cliquée
+			c.piece = this.lastPieceClicked;
+			// on modifie également sa position pour la rendre consiente du mouvement
+			c.piece.position = c.position;			
 		}
 		notifyAllObservers();
 	}
