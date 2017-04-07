@@ -23,33 +23,37 @@ public class Fou extends Piece {
 		
 		
 		// Diagonale -x -y : 
-		while(--xtmp < 8 && --ytmp >= 0){
-			if(!encoreDesPositions(xtmp, ytmp, pos, i))
+		while(xtmp < 8 && ytmp >= 0){
+			if(!encoreDesPositions(--xtmp, --ytmp, pos, i)){
 				break;
+			}
 		}
 		
 		xtmp = this.position.x;
 		ytmp = this.position.y;
 		// Diagonale +x -y : 
-		while(++xtmp < 8 && --ytmp >= 0){
-			if(!encoreDesPositions(xtmp, ytmp, pos, i))
+		while(xtmp < 8 && ytmp >= 0){
+			if(!encoreDesPositions(++xtmp, --ytmp, pos, i)){
 				break;
+			}
 		}
 		
 		xtmp = this.position.x;
 		ytmp = this.position.y;
 		// Diagonale -x +y : 
-		while(--xtmp >= 0 && ++ytmp < 8){
-			if(!encoreDesPositions(xtmp, ytmp, pos, i))
+		while(xtmp >= 0 && ytmp < 8){
+			if(!encoreDesPositions(--xtmp, ++ytmp, pos, i)){
 				break;
+			}
 		}
 		
 		xtmp = this.position.x;
 		ytmp = this.position.y;
 		// Diagonale +x +y : 
-		while(++xtmp < 8 && ++ytmp < 8){
-			if(!encoreDesPositions(xtmp, ytmp, pos, i))
+		while(xtmp < 8 && ytmp < 8){
+			if(!encoreDesPositions(++xtmp, ++ytmp, pos, i)){
 				break;
+			}
 		}
 		
 		return pos;

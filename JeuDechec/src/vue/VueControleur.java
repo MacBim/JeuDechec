@@ -83,32 +83,40 @@ public class VueControleur extends Application implements ObserveurEchec {
 		this.partie.remplirPlateau();
 
 	}
+	
+	private void colorCase(Rectangle colorRect, Plateau p, int x, int y){
+		if (p.cases[x][y].isLit) {
+			colorRect.setFill(Color.GREENYELLOW);
+		} else {
+			if((x+y)%2 == 0)
+				colorRect.setFill(Color.WHITE);
+			else
+				colorRect.setFill(Color.LIGHTBLUE);
+		}
+	}
+	
+	private void affichePieceCase(Plateau p, int x, int y){
+		if (p.cases[x][y].piece != null) {
+			ImageView img = new ImageView(p.cases[x][y].piece.imagePath);
+			this.groups[x][y].getChildren().add(img);
+		}
+	}
+	
 
 	public void updateVue() {
 		Plateau p = this.partie.plateau;
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
 				Rectangle colorRect = ((Rectangle) this.groups[x][y].getChildren().get(0));
-			
+				
 				for (int i = this.groups[x][y].getChildren().size() - 1; i > 0; i--) {
 					this.groups[x][y].getChildren().remove(i);
 				}
-				// Affichage de l'image de la pièce
-				if (p.cases[x][y].piece != null) {
-					ImageView img = new ImageView(p.cases[x][y].piece.imagePath);
-					this.groups[x][y].getChildren().add(img);
-				}
-				
-				// Coloration des cases si isLit
-				if (p.cases[x][y].isLit) {
-					colorRect.setFill(Color.GREENYELLOW);
-				} else {
-					if((x+y)%2 == 0)
-						colorRect.setFill(Color.WHITE);
-					else
-						colorRect.setFill(Color.LIGHTBLUE);
-				}
+				// Affichage de l'image de la piï¿½ce
+				affichePieceCase(p, x, y);
 
+				// Coloration des cases
+				colorCase(colorRect, p, x, y);
 			}
 		}
 	}

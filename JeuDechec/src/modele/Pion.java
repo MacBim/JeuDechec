@@ -39,10 +39,10 @@ public class Pion extends Piece {
 			} else {
 				// Est-ce qu'on peut manger en - x?
 				if (caseOccupable(this.position.x - 1, this.position.y - 1))
-					pos[i++] = new Position(this.position.x, this.position.y - 1);
+					pos[i++] = new Position(this.position.x -1, this.position.y - 1);
 				// Est- ce qu'on peut manger en + x
-				if (caseOccupable(this.position.x - 1, this.position.y - 1))
-					pos[i++] = new Position(this.position.x, this.position.y - 1);
+				if (caseOccupable(this.position.x + 1, this.position.y - 1))
+					pos[i++] = new Position(this.position.x + 1, this.position.y - 1);
 
 				// Est ce qu'on peut allez devant?
 				if (caseOccupable(this.position.x, this.position.y - 1))
@@ -52,10 +52,10 @@ public class Pion extends Piece {
 			if (premierDeplacement) { // Si c'est le premier tour
 				// Est-ce qu'on peut manger en - x?
 				if (caseOccupable(this.position.x - 1, this.position.y + 1))
-					pos[i++] = new Position(this.position.x, this.position.y + 1);
+					pos[i++] = new Position(this.position.x - 1, this.position.y + 1);
 				// Est- ce qu'on peut manger en + x
-				if (caseOccupable(this.position.x - 1, this.position.y + 1))
-					pos[i++] = new Position(this.position.x, this.position.y + 1);
+				if (caseOccupable(this.position.x + 1, this.position.y + 1))
+					pos[i++] = new Position(this.position.x + 1, this.position.y + 1);
 
 				// Est ce qu'on peut allez devant?
 				if (caseOccupable(this.position.x, this.position.y + 1))
@@ -66,10 +66,10 @@ public class Pion extends Piece {
 			} else {
 				// Est-ce qu'on peut manger en - x?
 				if (caseOccupable(this.position.x - 1, this.position.y + 1))
-					pos[i++] = new Position(this.position.x, this.position.y + 1);
+					pos[i++] = new Position(this.position.x - 1, this.position.y + 1);
 				// Est- ce qu'on peut manger en + x
-				if (caseOccupable(this.position.x - 1, this.position.y + 1))
-					pos[i++] = new Position(this.position.x, this.position.y + 1);
+				if (caseOccupable(this.position.x + 1, this.position.y + 1))
+					pos[i++] = new Position(this.position.x + 1, this.position.y + 1);
 				// Est ce qu'on peut allez devant?
 				if (caseOccupable(this.position.x, this.position.y + 1))
 					pos[i++] = new Position(this.position.x, this.position.y + 1);
@@ -101,18 +101,21 @@ public class Pion extends Piece {
 		if (x > 7 || y > 7 || y < 0 || x < 0)
 			return false;
 		// Le cas ou c'est une case de devant:
-		if (x == this.position.y + 1 || x == this.position.y - 1 || x == this.position.y + 2
-				|| x == this.position.y - 2)
-			if (this.plateau.cases[x][y].piece != null)
+		if (x == this.position.x && (
+				y == this.position.y + 1 || y == this.position.y - 1 || y == this.position.y + 2 || y == this.position.y - 2)){
+			if (this.plateau.cases[x][y].piece == null){
+				return true;
+			}
+			else
+				return false;
+		}
+		// Si on est dans le cas ou on veut manger une piece adverse :
+		else if (this.plateau.cases[x][y].piece != null){
+			if (this.plateau.cases[x][y].piece.couleur != this.plateau.cases[this.position.x][this.position.y].piece.couleur)
 				return true;
 			else
 				return false;
-		// Si on est dans le cas o`u on veut manger une piece adverse :
-		else if (this.plateau.cases[x][y].piece != null)
-			if (this.plateau.cases[x][y].piece.couleur == this.plateau.cases[this.position.x][this.position.y].piece.couleur)
-				return false;
-			else
-				return true;
+		}
 		else
 			return false;
 	}

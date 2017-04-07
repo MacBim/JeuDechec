@@ -82,23 +82,25 @@ public class Partie extends Observable {
 					if(pos[i] != null){
 						int x = pos[i].x;
 						int y = pos[i].y;
+						System.out.println(x + " " + y);
 						this.plateau.cases[x][y].highlightCase();
 					}
 				}
 			}
 		} else {
 			this.whitesTurn = !this.whitesTurn; // on change de tour
-			// on récupere la position de la dernière pièce cliquée
+			// on rï¿½cupere la position de la derniï¿½re piï¿½ce cliquï¿½e
 			int xp = this.lastPieceClicked.position.x;
 			int yp = this.lastPieceClicked.position.y;
 			
-			// on l'enlève de sont ancienne position
+			// on l'enlï¿½ve de sont ancienne position
 			this.plateau.cases[xp][yp].removePiece();
 			
-			//on met dans la case destination la pièce précedemment cliquée
+			//on met dans la case destination la piï¿½ce prï¿½cedemment cliquï¿½e
 			c.piece = this.lastPieceClicked;
-			// on modifie également sa position pour la rendre consiente du mouvement
+			// on modifie ï¿½galement sa position pour la rendre consiente du mouvement
 			c.piece.position = c.position;			
+			
 		}
 		notifyAllObservers();
 	}
