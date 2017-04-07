@@ -14,7 +14,7 @@ public class Roi extends Piece {
 
 	@Override
 	public Position[] getAvailablePositions() {
-		Position[] pos = new Position[this.nbDeplacementsMaxPossibles];
+		Position[] pos = new Position[Roi.nbDeplacementsMaxPossibles];
 		
 		Position[] defaultPositions = {
 			new Position(this.position.x - 1, this.position.y - 1),

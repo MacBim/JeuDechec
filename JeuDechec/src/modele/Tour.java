@@ -13,7 +13,7 @@ public class Tour extends Piece {
 
 	@Override
 	public Position[] getAvailablePositions() {
-		Position[] pos = new Position[nbDeplacementsMaxPossibles];
+		Position[] pos = new Position[Tour.nbDeplacementsMaxPossibles];
 		int xtmp = this.position.x;
 		int ytmp = this.position.y;
 		int i = 0;
@@ -29,7 +29,7 @@ public class Tour extends Piece {
 
 		xtmp = this.position.x;
 		/* Pour les X a gauche */
-		while (xtmp > 0) {
+		while (xtmp > 0 && xtmp < 8) {
 			if (this.plateau.cases[xtmp - 1][ytmp].piece == null)
 				pos[i++] = new Position(xtmp--, ytmp);
 			else if (caseOccupable(xtmp - 1, ytmp))
@@ -41,7 +41,7 @@ public class Tour extends Piece {
 		xtmp = this.position.x;
 		ytmp = this.position.y;
 		/* Pour les Y qui monte */
-		while (xtmp > 0) {
+		while (ytmp > 0 && ytmp < 8) {
 			if (this.plateau.cases[xtmp][ytmp - 1].piece == null)
 				pos[i++] = new Position(xtmp, ytmp--);
 			else if (caseOccupable(xtmp, ytmp - 1))
@@ -53,7 +53,7 @@ public class Tour extends Piece {
 		xtmp = this.position.x;
 		ytmp = this.position.y;
 		/* Pour les Y qui descende */
-		while (xtmp < 8) {
+		while (ytmp < 8 && ytmp > 0) {
 			if (this.plateau.cases[xtmp][ytmp + 1].piece == null)
 				pos[i++] = new Position(xtmp, ytmp++);
 			else if (caseOccupable(xtmp, ytmp + 1))

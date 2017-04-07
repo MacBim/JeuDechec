@@ -14,7 +14,7 @@ public class Fou extends Piece {
 
 	@Override
 	public Position[] getAvailablePositions() {
-		Position[] pos = new Position[this.nbDeplacementsMaxPossibles];
+		Position[] pos = new Position[Fou.nbDeplacementsMaxPossibles];
 		int xtmp = this.position.x;
 		int ytmp = this.position.y;
 		int i = 0;

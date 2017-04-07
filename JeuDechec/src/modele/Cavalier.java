@@ -14,7 +14,7 @@ public class Cavalier extends Piece {
 
 	@Override
 	public Position[] getAvailablePositions() {
-		Position[] pos = new Position[this.nbDeplacementsMaxPossibles];
+		Position[] pos = new Position[Cavalier.nbDeplacementsMaxPossibles];
 
 		int i = 0;
 		// On vérifie les 2 positions en allant vers + y

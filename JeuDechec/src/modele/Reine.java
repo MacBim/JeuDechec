@@ -33,7 +33,7 @@ public class Reine extends Piece {
 
 	@Override
 	public Position[] getAvailablePositions() {
-		Position[] pos = new Position[this.nbDeplacementsMaxPossible];
+		Position[] pos = new Position[Reine.nbDeplacementsMaxPossible];
 		int xtmp = this.position.x;
 		int ytmp = this.position.y;
 		int i = 0;

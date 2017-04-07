@@ -17,7 +17,7 @@ public class Pion extends Piece {
 	@Override
 	public Position[] getAvailablePositions() {
 		// TODO : what ?
-		Position[] pos = new Position[this.nbDeplacementsMaxPossibles];
+		Position[] pos = new Position[Pion.nbDeplacementsMaxPossibles];
 		int i = 0;
 		// On verifie dans quelle direction peut aller le pion en regardant sa
 		// couleur
