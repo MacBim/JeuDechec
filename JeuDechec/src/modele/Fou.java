@@ -23,8 +23,8 @@ public class Fou extends Piece {
 		
 		
 		// Diagonale -x -y : 
-		while(xtmp < 8 && ytmp >= 0){
-			if(!encoreDesPositions(--xtmp, --ytmp, pos, i)){
+		while(--xtmp >= 0 && --ytmp >= 0){
+			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
 				break;
 			}
 		}
@@ -32,8 +32,8 @@ public class Fou extends Piece {
 		xtmp = this.position.x;
 		ytmp = this.position.y;
 		// Diagonale +x -y : 
-		while(xtmp < 8 && ytmp >= 0){
-			if(!encoreDesPositions(++xtmp, --ytmp, pos, i)){
+		while(++xtmp < 8 && --ytmp >= 0){
+			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
 				break;
 			}
 		}
@@ -41,8 +41,8 @@ public class Fou extends Piece {
 		xtmp = this.position.x;
 		ytmp = this.position.y;
 		// Diagonale -x +y : 
-		while(xtmp >= 0 && ytmp < 8){
-			if(!encoreDesPositions(--xtmp, ++ytmp, pos, i)){
+		while(--xtmp >= 0 && ++ytmp < 8){
+			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
 				break;
 			}
 		}
@@ -50,8 +50,8 @@ public class Fou extends Piece {
 		xtmp = this.position.x;
 		ytmp = this.position.y;
 		// Diagonale +x +y : 
-		while(xtmp < 8 && ytmp < 8){
-			if(!encoreDesPositions(++xtmp, ++ytmp, pos, i)){
+		while(++xtmp < 8 && ++ytmp < 8){
+			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
 				break;
 			}
 		}
@@ -61,11 +61,11 @@ public class Fou extends Piece {
 	
 	public boolean encoreDesPositions(int x, int y, Position[] pos, int i) {
 		if(this.plateau.cases[x][y].piece == null){
-			pos[i++] = new Position(x, y);
+			pos[i] = new Position(x, y);
 			return true;
 		}
 		else if(caseOccupable(x, y)){
-			pos[i++] = new Position(x, y);
+			pos[i] = new Position(x, y);
 			return false;
 		}
 		else return false;

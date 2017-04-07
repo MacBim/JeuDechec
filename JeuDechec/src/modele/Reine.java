@@ -39,108 +39,96 @@ public class Reine extends Piece {
 		int i = 0;
 		
 		// ******************** Mouvements "tour" ***********************
-		/* Pour les X a droite */
-		while (xtmp < 8) 
-		{
-			if (this.plateau.cases[xtmp + 1][ytmp].piece == null)
-				pos[i++] = new Position(xtmp++, ytmp);
-			else if (caseOccupable(xtmp + 1, ytmp))
-				pos[i++] = new Position(xtmp++, ytmp);
-			else
+		/* Pour les X + */
+		while(++xtmp < 8 ){
+			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
 				break;
+			}
 		}
 
 		xtmp = this.position.x;
-		/* Pour les X a gauche */
-		while (xtmp > 0) {
-			if (this.plateau.cases[xtmp - 1][ytmp].piece == null)
-				pos[i++] = new Position(xtmp--, ytmp);
-			else if (caseOccupable(xtmp - 1, ytmp))
-				pos[i++] = new Position(xtmp--, ytmp);
-			else
+		/* Pour les X - */
+		while(--xtmp >= 0 ){
+			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
 				break;
+			}
 		}
 
 		xtmp = this.position.x;
 		ytmp = this.position.y;
-		/* Pour les Y qui monte */
-		while (xtmp > 0) {
-			if (this.plateau.cases[xtmp][ytmp - 1].piece == null)
-				pos[i++] = new Position(xtmp, ytmp--);
-			else if (caseOccupable(xtmp, ytmp - 1))
-				pos[i++] = new Position(xtmp, ytmp--);
-			else
+		/* Pour les Y - */
+		while(++ytmp < 8 ){
+			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
 				break;
+			}
 		}
 
 		xtmp = this.position.x;
 		ytmp = this.position.y;
-		/* Pour les Y qui descende */
-		while (xtmp < 8) {
-			if (this.plateau.cases[xtmp][ytmp + 1].piece == null)
-				pos[i++] = new Position(xtmp, ytmp++);
-			else if (caseOccupable(xtmp, ytmp + 1))
-				pos[i++] = new Position(xtmp, ytmp++);
-			else
+		/* Pour les Y + */
+		while(--ytmp >= 0 ){
+			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
 				break;
+			}
 		}
 		
 		// ******************** Mouvements "fou" ***********************
-		
-		i = 0;
 		xtmp = this.position.x;
 		ytmp = this.position.y;
 		
 		// Diagonale -x -y : 
-		while(--xtmp < 8 && --ytmp >= 0){
-			if(!encoreDesPositions(xtmp, ytmp, pos, i))
+		while(--xtmp >= 0 && --ytmp >= 0){
+			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
 				break;
+			}
 		}
 		
 		xtmp = this.position.x;
 		ytmp = this.position.y;
 		// Diagonale +x -y : 
 		while(++xtmp < 8 && --ytmp >= 0){
-			if(!encoreDesPositions(xtmp, ytmp, pos, i))
+			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
 				break;
+			}
 		}
 		
 		xtmp = this.position.x;
 		ytmp = this.position.y;
 		// Diagonale -x +y : 
 		while(--xtmp >= 0 && ++ytmp < 8){
-			if(!encoreDesPositions(xtmp, ytmp, pos, i))
+			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
 				break;
+			}
 		}
 		
 		xtmp = this.position.x;
 		ytmp = this.position.y;
 		// Diagonale +x +y : 
 		while(++xtmp < 8 && ++ytmp < 8){
-			if(!encoreDesPositions(xtmp, ytmp, pos, i))
+			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
 				break;
+			}
 		}
 		
 		return pos;
 	}
 	
+	public boolean caseOccupable(int x, int y){
+		if(this.plateau.cases[x][y].piece.couleur == this.couleur)
+			return false;
+		return true;
+	}
+	
 	public boolean encoreDesPositions(int x, int y, Position[] pos, int i) {
 		if(this.plateau.cases[x][y].piece == null){
-			pos[i++] = new Position(x, y);
+			pos[i] = new Position(x, y);
 			return true;
 		}
 		else if(caseOccupable(x, y)){
-			pos[i++] = new Position(x, y);
+			pos[i] = new Position(x, y);
 			return false;
 		}
 		else return false;
-	}
-
-	@Override
-	public boolean caseOccupable(int x, int y) {
-		if (this.plateau.cases[x][y].piece.couleur == this.couleur)
-			return false;
-		return true;
 	}
 	
 }

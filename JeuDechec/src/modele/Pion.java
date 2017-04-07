@@ -26,10 +26,10 @@ public class Pion extends Piece {
 			if (premierDeplacement) { // Si c'est le premier tour
 				// Est-ce qu'on peut manger en - x?
 				if (caseOccupable(this.position.x - 1, this.position.y - 1))
-					pos[i++] = new Position(this.position.x, this.position.y - 1);
+					pos[i++] = new Position(this.position.x - 1, this.position.y - 1);
 				// Est- ce qu'on peut manger en + x
-				if (caseOccupable(this.position.x - 1, this.position.y - 1))
-					pos[i++] = new Position(this.position.x, this.position.y - 1);
+				if (caseOccupable(this.position.x + 1, this.position.y - 1))
+					pos[i++] = new Position(this.position.x + 1, this.position.y - 1);
 
 				// Est ce qu'on peut allez devant?
 				if (caseOccupable(this.position.x, this.position.y - 1))
@@ -79,7 +79,7 @@ public class Pion extends Piece {
 		return pos;
 	}
 
-	@Override
+	@Override 
 	public boolean getDirValide(Coup coup) {
 		// TODO Auto-generated method stub
 		return false;

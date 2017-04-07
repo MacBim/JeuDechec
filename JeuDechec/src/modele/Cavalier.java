@@ -24,7 +24,7 @@ public class Cavalier extends Piece {
 					pos[i++] = new Position(this.position.x - 1, this.position.y + 2);
 				}
 			}
-			if (this.position.x + 1 >= 7){
+			if (this.position.x + 1 < 8){
 				if (caseOccupable(this.position.x + 1, this.position.y + 2)){
 					pos[i++] = new Position(this.position.x + 1, this.position.y + 2);
 				}
@@ -34,11 +34,11 @@ public class Cavalier extends Piece {
 		// On vérifie les 2 positions en allant vers - y
 		if (this.position.y - 2 < 8) {
 			if (this.position.x - 1 >= 0){
-				if (caseOccupable(this.position.x + 1, this.position.y - 2)){
+				if (caseOccupable(this.position.x - 1, this.position.y - 2)){
 					pos[i++] = new Position(this.position.x - 1, this.position.y - 2);
 				}
 			}
-			if (this.position.x + 1 >= 7){
+			if (this.position.x + 1 < 8){
 				if (caseOccupable(this.position.x + 1, this.position.y - 2)){
 					pos[i++] = new Position(this.position.x + 1, this.position.y - 2);
 				}
@@ -48,11 +48,11 @@ public class Cavalier extends Piece {
 		// On vérifie les 2 positions en allant vers + x
 		if (this.position.x + 2 < 8) {
 			if (this.position.y - 1 >= 0){
-				if (caseOccupable(this.position.x + 2, this.position.y - 2)){
+				if (caseOccupable(this.position.x + 2, this.position.y - 1)){
 					pos[i++] = new Position(this.position.x + 2, this.position.y - 1);
 				}
 			}
-			if (this.position.y + 1 >= 7){
+			if (this.position.y + 1 < 8){
 				if (caseOccupable(this.position.x + 2, this.position.y + 1)){
 					pos[i++] = new Position(this.position.x + 2, this.position.y + 1);
 				}
@@ -66,7 +66,7 @@ public class Cavalier extends Piece {
 					pos[i++] = new Position(this.position.x - 2, this.position.y - 1);
 				}
 			}
-			if (this.position.y + 1 >= 7){
+			if (this.position.y + 1 < 8){
 				if (caseOccupable(this.position.x - 2, this.position.y + 1)){
 					pos[i++] = new Position(this.position.x - 2, this.position.y + 1);
 				}
