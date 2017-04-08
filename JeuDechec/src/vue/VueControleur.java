@@ -9,6 +9,7 @@ package vue;
 import javafx.application.Application;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
@@ -38,6 +39,7 @@ public class VueControleur extends Application implements ObserveurEchec {
 
 		// permet de placer les diffrents boutons dans une grille
 		GridPane gPane = new GridPane();
+		gPane.setAlignment(Pos.CENTER);
 
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
@@ -45,9 +47,9 @@ public class VueControleur extends Application implements ObserveurEchec {
 				Rectangle r = new Rectangle(80, 80);
 				int positionSum = x + y;
 				if (positionSum % 2 == 0) {
-					r.setFill(Color.WHITE);
+					r.setFill(Color.BLANCHEDALMOND);
 				} else {
-					r.setFill(Color.LIGHTBLUE);
+					r.setFill(Color.BROWN);
 				}
 
 				this.groups[x][y] = new Group();
@@ -86,12 +88,15 @@ public class VueControleur extends Application implements ObserveurEchec {
 	
 	private void colorCase(Rectangle colorRect, Plateau p, int x, int y){
 		if (p.cases[x][y].isLit) {
-			colorRect.setFill(Color.GREENYELLOW);
+			if(p.cases[x][y].piece != null && p.cases[x][y].piece.couleur == !this.partie.getLastPieceClicked().couleur)
+				colorRect.setFill(Color.RED);
+			else
+				colorRect.setFill(Color.GREENYELLOW);
 		} else {
 			if((x+y)%2 == 0)
-				colorRect.setFill(Color.WHITE);
+				colorRect.setFill(Color.BLANCHEDALMOND);
 			else
-				colorRect.setFill(Color.LIGHTBLUE);
+				colorRect.setFill(Color.BROWN);
 		}
 	}
 	
