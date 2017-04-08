@@ -1,9 +1,3 @@
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vue;
 
 import javafx.application.Application;
@@ -12,6 +6,8 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -137,7 +133,25 @@ public class VueControleur extends Application implements ObserveurEchec {
 	@Override
 	public void notifyObserver() {
 		// TODO Auto-generated method stubs
-		updateVue();
+		int gameStatus = this.partie.getGameStatus();
+		if(gameStatus == 0){
+			updateVue();
+			return;
+		}
+		displayEndGamePopup(gameStatus);
+		
+	}
+	
+	private void displayEndGamePopup(int gameStatus){
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Jeu d'échec");
+		alert.setHeaderText("La partie est terminée.");
+		if(gameStatus == 1) // blanc
+			alert.setContentText("Les blancs ont gagnés !");
+		else
+			alert.setContentText("Les noirs ont gagnés !");
+
+		alert.showAndWait();
 	}
 
 }
