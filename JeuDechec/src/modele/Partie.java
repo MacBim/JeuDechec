@@ -16,6 +16,10 @@ public class Partie extends Observable {
 	public void start() {
 		
 	}
+	
+	public Piece getLastPieceClicked(){
+		return this.lastPieceClicked;
+	}
 
 	public void remplirPlateau(){
 		this.plateau.cases[0][0].addPiece(new Tour(Piece.NOIR,this.plateau,new Position(0, 0)));
@@ -88,8 +92,11 @@ public class Partie extends Observable {
 				}
 			}
 		} else {
-			this.whitesTurn = !this.whitesTurn; // on change de tour
-			// on r�cupere la position de la derni�re pi�ce cliqu�e
+			if(this.lastPieceClicked instanceof Pion){
+				((Pion) this.lastPieceClicked).premierDeplacement = false;
+			}
+			
+			// on recupere la position de la derni�re pi�ce cliqu�e
 			int xp = this.lastPieceClicked.position.x;
 			int yp = this.lastPieceClicked.position.y;
 			
@@ -99,7 +106,9 @@ public class Partie extends Observable {
 			//on met dans la case destination la pi�ce pr�cedemment cliqu�e
 			c.piece = this.lastPieceClicked;
 			// on modifie �galement sa position pour la rendre consiente du mouvement
-			c.piece.position = c.position;			
+			c.piece.position = c.position;
+			
+			this.whitesTurn = !this.whitesTurn; // on change de tour
 			
 		}
 		notifyAllObservers();
