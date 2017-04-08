@@ -26,6 +26,7 @@ public class VueControleur extends Application implements ObserveurEchec {
 
 	private Group[][] groups = new Group[8][8];
 	private Partie partie;
+	private Scene scene;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -71,10 +72,10 @@ public class VueControleur extends Application implements ObserveurEchec {
 
 		border.setCenter(gPane);
 
-		Scene scene = new Scene(border, Color.WHITE);
+		this.scene = new Scene(border, Color.WHITE);
 
 		primaryStage.setTitle("Echec");
-		primaryStage.setScene(scene);
+		primaryStage.setScene(this.scene);
 		primaryStage.show();
 		this.partie = new Partie();
 		this.partie.subscribe(this);
@@ -106,6 +107,17 @@ public class VueControleur extends Application implements ObserveurEchec {
 
 	public void updateVue() {
 		Plateau p = this.partie.plateau;
+		
+		boolean currentTurn = this.partie.whitesTurn;
+		Stage stage = (Stage) this.scene.getWindow();
+		String title = "Echec : Tour des ";
+		if(currentTurn) {
+			title += "Blancs";
+			
+		} else {
+			title += "Noir";
+		}
+		stage.setTitle(title);
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
 				Rectangle colorRect = ((Rectangle) this.groups[x][y].getChildren().get(0));
