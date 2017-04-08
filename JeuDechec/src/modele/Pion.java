@@ -32,10 +32,11 @@ public class Pion extends Piece {
 					pos[i++] = new Position(this.position.x + 1, this.position.y - 1);
 
 				// Est ce qu'on peut allez devant?
-				if (caseOccupable(this.position.x, this.position.y - 1))
+				if (caseOccupable(this.position.x, this.position.y - 1)){
 					pos[i++] = new Position(this.position.x, this.position.y - 1);
-				if (caseOccupable(this.position.x, this.position.y - 2))
-					pos[i++] = new Position(this.position.x, this.position.y - 2);
+					if (caseOccupable(this.position.x, this.position.y - 2))
+						pos[i++] = new Position(this.position.x, this.position.y - 2);
+				}
 			} else {
 				// Est-ce qu'on peut manger en - x?
 				if (caseOccupable(this.position.x - 1, this.position.y - 1))
@@ -58,11 +59,11 @@ public class Pion extends Piece {
 					pos[i++] = new Position(this.position.x + 1, this.position.y + 1);
 
 				// Est ce qu'on peut allez devant?
-				if (caseOccupable(this.position.x, this.position.y + 1))
+				if (caseOccupable(this.position.x, this.position.y + 1)){
 					pos[i++] = new Position(this.position.x, this.position.y + 1);
-				if (caseOccupable(this.position.x, this.position.y + 2))
-					pos[i++] = new Position(this.position.x, this.position.y + 2);
-
+					if (caseOccupable(this.position.x, this.position.y + 2))
+						pos[i++] = new Position(this.position.x, this.position.y + 2);
+				}
 			} else {
 				// Est-ce qu'on peut manger en - x?
 				if (caseOccupable(this.position.x - 1, this.position.y + 1))
