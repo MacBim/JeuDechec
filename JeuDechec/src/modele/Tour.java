@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.ArrayList;
+
 public class Tour extends Piece {
 
 	public final static int nbDeplacementsMaxPossibles = 16;
@@ -12,15 +14,15 @@ public class Tour extends Piece {
 	}
 
 	@Override
-	public Position[] getAvailablePositions() {
-		Position[] pos = new Position[Tour.nbDeplacementsMaxPossibles];
+	public ArrayList<Position> getAvailablePositions() {
+		ArrayList<Position> pos = new ArrayList<>();
 		int xtmp = this.position.x;
 		int ytmp = this.position.y;
 		int i = 0;
 	
 		/* Pour les X + */
 		while(++xtmp < 8 ){
-			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
+			if(!encoreDesPositions(xtmp, ytmp, pos)){
 				break;
 			}
 		}
@@ -28,7 +30,7 @@ public class Tour extends Piece {
 		xtmp = this.position.x;
 		/* Pour les X - */
 		while(--xtmp >= 0 ){
-			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
+			if(!encoreDesPositions(xtmp, ytmp, pos)){
 				break;
 			}
 		}
@@ -37,7 +39,7 @@ public class Tour extends Piece {
 		ytmp = this.position.y;
 		/* Pour les Y - */
 		while(++ytmp < 8 ){
-			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
+			if(!encoreDesPositions(xtmp, ytmp, pos)){
 				break;
 			}
 		}
@@ -46,7 +48,7 @@ public class Tour extends Piece {
 		ytmp = this.position.y;
 		/* Pour les Y + */
 		while(--ytmp >= 0 ){
-			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
+			if(!encoreDesPositions(xtmp, ytmp, pos)){
 				break;
 			}
 		}
@@ -77,13 +79,13 @@ public class Tour extends Piece {
 		return true;
 	}
 	
-	public boolean encoreDesPositions(int x, int y, Position[] pos, int i) {
+	public boolean encoreDesPositions(int x, int y, ArrayList<Position> pos) {
 		if(this.plateau.cases[x][y].piece == null){
-			pos[i] = new Position(x, y);
+			pos.add(new Position(x, y));
 			return true;
 		}
 		else if(caseOccupable(x, y)){
-			pos[i] = new Position(x, y);
+			pos.add(new Position(x, y));
 			return false;
 		}
 		else return false;

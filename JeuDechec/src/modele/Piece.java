@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.ArrayList;
+
 public abstract class Piece {
 
 	public boolean vivante;
@@ -11,7 +13,7 @@ public abstract class Piece {
 	public final static boolean BLANC = true;
 	public final static boolean NOIR = false;
 
-	public abstract Position[] getAvailablePositions();
+	public abstract ArrayList<Position> getAvailablePositions();
 
 	public abstract boolean getDirValide(Coup coup);
 

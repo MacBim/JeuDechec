@@ -1,5 +1,9 @@
 package modele;
 
+import java.util.ArrayList;
+
+import javafx.geometry.Pos;
+
 public class Reine extends Piece {
 
 	public final static int nbDeplacementsMaxPossible = 29;
@@ -32,8 +36,8 @@ public class Reine extends Piece {
 	}
 
 	@Override
-	public Position[] getAvailablePositions() {
-		Position[] pos = new Position[Reine.nbDeplacementsMaxPossible];
+	public ArrayList<Position> getAvailablePositions() {
+		ArrayList<Position> pos = new ArrayList<>();
 		int xtmp = this.position.x;
 		int ytmp = this.position.y;
 		int i = 0;
@@ -41,7 +45,7 @@ public class Reine extends Piece {
 		// ******************** Mouvements "tour" ***********************
 		/* Pour les X + */
 		while(++xtmp < 8 ){
-			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
+			if(!encoreDesPositions(xtmp, ytmp, pos)){
 				break;
 			}
 		}
@@ -49,7 +53,7 @@ public class Reine extends Piece {
 		xtmp = this.position.x;
 		/* Pour les X - */
 		while(--xtmp >= 0 ){
-			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
+			if(!encoreDesPositions(xtmp, ytmp, pos)){
 				break;
 			}
 		}
@@ -58,7 +62,7 @@ public class Reine extends Piece {
 		ytmp = this.position.y;
 		/* Pour les Y - */
 		while(++ytmp < 8 ){
-			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
+			if(!encoreDesPositions(xtmp, ytmp, pos)){
 				break;
 			}
 		}
@@ -67,7 +71,7 @@ public class Reine extends Piece {
 		ytmp = this.position.y;
 		/* Pour les Y + */
 		while(--ytmp >= 0 ){
-			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
+			if(!encoreDesPositions(xtmp, ytmp, pos)){
 				break;
 			}
 		}
@@ -78,7 +82,7 @@ public class Reine extends Piece {
 		
 		// Diagonale -x -y : 
 		while(--xtmp >= 0 && --ytmp >= 0){
-			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
+			if(!encoreDesPositions(xtmp, ytmp, pos)){
 				break;
 			}
 		}
@@ -87,7 +91,7 @@ public class Reine extends Piece {
 		ytmp = this.position.y;
 		// Diagonale +x -y : 
 		while(++xtmp < 8 && --ytmp >= 0){
-			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
+			if(!encoreDesPositions(xtmp, ytmp, pos)){
 				break;
 			}
 		}
@@ -96,7 +100,7 @@ public class Reine extends Piece {
 		ytmp = this.position.y;
 		// Diagonale -x +y : 
 		while(--xtmp >= 0 && ++ytmp < 8){
-			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
+			if(!encoreDesPositions(xtmp, ytmp, pos)){
 				break;
 			}
 		}
@@ -105,7 +109,7 @@ public class Reine extends Piece {
 		ytmp = this.position.y;
 		// Diagonale +x +y : 
 		while(++xtmp < 8 && ++ytmp < 8){
-			if(!encoreDesPositions(xtmp, ytmp, pos, i++)){
+			if(!encoreDesPositions(xtmp, ytmp, pos)){
 				break;
 			}
 		}
@@ -119,13 +123,13 @@ public class Reine extends Piece {
 		return true;
 	}
 	
-	public boolean encoreDesPositions(int x, int y, Position[] pos, int i) {
+	public boolean encoreDesPositions(int x, int y, ArrayList<Position> pos) {
 		if(this.plateau.cases[x][y].piece == null){
-			pos[i] = new Position(x, y);
+			pos.add(new Position(x, y));
 			return true;
 		}
 		else if(caseOccupable(x, y)){
-			pos[i] = new Position(x, y);
+			pos.add(new Position(x, y));
 			return false;
 		}
 		else return false;

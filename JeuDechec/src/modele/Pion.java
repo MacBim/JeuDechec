@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.ArrayList;
+
 public class Pion extends Piece {
 
 	boolean premierDeplacement = true;
@@ -15,9 +17,9 @@ public class Pion extends Piece {
 	}
 
 	@Override
-	public Position[] getAvailablePositions() {
+	public ArrayList<Position> getAvailablePositions() {
 		// TODO : what ?
-		Position[] pos = new Position[Pion.nbDeplacementsMaxPossibles];
+		ArrayList<Position> pos = new ArrayList<>();
 		int i = 0;
 		// On verifie dans quelle direction peut aller le pion en regardant sa
 		// couleur
@@ -26,54 +28,54 @@ public class Pion extends Piece {
 			if (premierDeplacement) { // Si c'est le premier tour
 				// Est-ce qu'on peut manger en - x?
 				if (caseOccupable(this.position.x - 1, this.position.y - 1))
-					pos[i++] = new Position(this.position.x - 1, this.position.y - 1);
+					pos.add(new Position(this.position.x - 1, this.position.y - 1));
 				// Est- ce qu'on peut manger en + x
 				if (caseOccupable(this.position.x + 1, this.position.y - 1))
-					pos[i++] = new Position(this.position.x + 1, this.position.y - 1);
+					pos.add( new Position(this.position.x + 1, this.position.y - 1));
 
 				// Est ce qu'on peut allez devant?
 				if (caseOccupable(this.position.x, this.position.y - 1)){
-					pos[i++] = new Position(this.position.x, this.position.y - 1);
+					pos.add( new Position(this.position.x, this.position.y - 1));
 					if (caseOccupable(this.position.x, this.position.y - 2))
-						pos[i++] = new Position(this.position.x, this.position.y - 2);
+						pos.add( new Position(this.position.x, this.position.y - 2));
 				}
 			} else {
 				// Est-ce qu'on peut manger en - x?
 				if (caseOccupable(this.position.x - 1, this.position.y - 1))
-					pos[i++] = new Position(this.position.x -1, this.position.y - 1);
+					pos.add( new Position(this.position.x -1, this.position.y - 1));
 				// Est- ce qu'on peut manger en + x
 				if (caseOccupable(this.position.x + 1, this.position.y - 1))
-					pos[i++] = new Position(this.position.x + 1, this.position.y - 1);
+					pos.add( new Position(this.position.x + 1, this.position.y - 1));
 
 				// Est ce qu'on peut allez devant?
 				if (caseOccupable(this.position.x, this.position.y - 1))
-					pos[i++] = new Position(this.position.x, this.position.y - 1);
+					pos.add( new Position(this.position.x, this.position.y - 1));
 			}
 		} else { // si il est noir on vérifie qu'il peut allez dans le + y
 			if (premierDeplacement) { // Si c'est le premier tour
 				// Est-ce qu'on peut manger en - x?
 				if (caseOccupable(this.position.x - 1, this.position.y + 1))
-					pos[i++] = new Position(this.position.x - 1, this.position.y + 1);
+					pos.add( new Position(this.position.x - 1, this.position.y + 1));
 				// Est- ce qu'on peut manger en + x
 				if (caseOccupable(this.position.x + 1, this.position.y + 1))
-					pos[i++] = new Position(this.position.x + 1, this.position.y + 1);
+					pos.add( new Position(this.position.x + 1, this.position.y + 1));
 
 				// Est ce qu'on peut allez devant?
 				if (caseOccupable(this.position.x, this.position.y + 1)){
-					pos[i++] = new Position(this.position.x, this.position.y + 1);
+					pos.add( new Position(this.position.x, this.position.y + 1));
 					if (caseOccupable(this.position.x, this.position.y + 2))
-						pos[i++] = new Position(this.position.x, this.position.y + 2);
+						pos.add( new Position(this.position.x, this.position.y + 2));
 				}
 			} else {
 				// Est-ce qu'on peut manger en - x?
 				if (caseOccupable(this.position.x - 1, this.position.y + 1))
-					pos[i++] = new Position(this.position.x - 1, this.position.y + 1);
+					pos.add( new Position(this.position.x - 1, this.position.y + 1));
 				// Est- ce qu'on peut manger en + x
 				if (caseOccupable(this.position.x + 1, this.position.y + 1))
-					pos[i++] = new Position(this.position.x + 1, this.position.y + 1);
+					pos.add( new Position(this.position.x + 1, this.position.y + 1));
 				// Est ce qu'on peut allez devant?
 				if (caseOccupable(this.position.x, this.position.y + 1))
-					pos[i++] = new Position(this.position.x, this.position.y + 1);
+					pos.add( new Position(this.position.x, this.position.y + 1));
 
 			}
 		}

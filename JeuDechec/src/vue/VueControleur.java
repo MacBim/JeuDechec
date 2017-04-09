@@ -8,9 +8,11 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -35,8 +37,8 @@ public class VueControleur extends Application implements ObserveurEchec {
 		BorderPane border = new BorderPane();
 
 		// permet de placer les diffrents boutons dans une grille
-		GridPane gPane = new GridPane();
-		gPane.setAlignment(Pos.CENTER);
+		GridPane boardGridPane = new GridPane();
+		boardGridPane.setAlignment(Pos.CENTER);
 
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
@@ -65,19 +67,36 @@ public class VueControleur extends Application implements ObserveurEchec {
 
 				});
 
-				gPane.add(this.groups[x][y], x, y);
+				boardGridPane.add(this.groups[x][y], x, y);
 			}
 		}
-		gPane.setGridLinesVisible(true);
-
-		border.setCenter(gPane);
+		boardGridPane.setGridLinesVisible(true);
+		border.setCenter(boardGridPane);
+		
+		// création du panneau de control
+		final Button playVsIAButton = new Button("Jouer contre l'ordinateur");
+		this.partie = new Partie();
+		final Partie partieTmp = this.partie;
+		playVsIAButton.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				// TODO Auto-generated method stub
+				partieTmp.setPlayerTwoAsIA();
+				playVsIAButton.setText("Joue contre l'ordinateur");
+			}
+		});
+		Pane buttonPane = new Pane();
+		buttonPane.getChildren().add(playVsIAButton);
+		
+		border.setBottom(buttonPane);
+		
 
 		this.scene = new Scene(border, Color.WHITE);
 
 		primaryStage.setTitle("Echec");
 		primaryStage.setScene(this.scene);
 		primaryStage.show();
-		this.partie = new Partie();
+		
 		this.partie.subscribe(this);
 		this.partie.remplirPlateau();
 
@@ -113,7 +132,6 @@ public class VueControleur extends Application implements ObserveurEchec {
 		String title = "Echec : Tour des ";
 		if(currentTurn) {
 			title += "Blancs";
-			
 		} else {
 			title += "Noir";
 		}
@@ -146,8 +164,8 @@ public class VueControleur extends Application implements ObserveurEchec {
 	public void notifyObserver() {
 		// TODO Auto-generated method stubs
 		int gameStatus = this.partie.getGameStatus();
-		if(gameStatus == 0){
-			updateVue();
+		if(gameStatus == 0){ // personne n'a encore gagner, on continue de jouer
+			updateVue(); 
 			return;
 		}
 		displayEndGamePopup(gameStatus);
@@ -160,7 +178,7 @@ public class VueControleur extends Application implements ObserveurEchec {
 		alert.setHeaderText("La partie est terminée.");
 		if(gameStatus == 1) // blanc
 			alert.setContentText("Les blancs ont gagnés !");
-		else
+		else // noir
 			alert.setContentText("Les noirs ont gagnés !");
 
 		alert.showAndWait();

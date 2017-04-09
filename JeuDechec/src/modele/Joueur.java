@@ -1,14 +1,16 @@
 package modele;
 
-public class Joueur {
+public abstract class Joueur {
 
     public Partie partie;
-    public Piece[] pieces;
+    boolean couleur;
     
-    public Joueur(Partie partie){
+    public Joueur(Partie partie, boolean couleur){
     	this.partie = partie;
-    	
+    	this.couleur = couleur;
     }
+    
+    protected abstract void play(int x, int y);
    
 
 }

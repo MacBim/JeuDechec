@@ -11,19 +11,25 @@ public class Partie extends Observable {
 
 	public Plateau plateau;
 	public boolean whitesTurn = true;
+
+	private Joueur blackPlayer;
+	private Joueur whitePlayer;
+
 	private Piece lastPieceClicked = null;
 	private int gameStatus;
 
 	public Partie() {
 		this.plateau = new Plateau();
 		this.observers = new ArrayList<ObserveurEchec>();
+		this.blackPlayer = new JoueurHumain(this, false);
+		this.whitePlayer = new JoueurHumain(this, true);
 	}
 
 	public void start() {
 
 	}
 
-	private List<Piece> getWhitePieces() {
+	public List<Piece> getWhitePieces() {
 		ArrayList<Piece> ret = new ArrayList<>();
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
@@ -37,7 +43,7 @@ public class Partie extends Observable {
 		return ret;
 	}
 
-	private List<Piece> getBlackPieces() {
+	public List<Piece> getBlackPieces() {
 		ArrayList<Piece> ret = new ArrayList<>();
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
@@ -48,6 +54,24 @@ public class Partie extends Observable {
 				}
 			}
 		}
+		return ret;
+	}
+
+	public void setPlayerTwoAsIA() {
+		this.blackPlayer = new JoueurIA(this, false);
+	}
+
+	public List<Piece> getAllPieces() {
+		ArrayList<Piece> ret = new ArrayList<>();
+
+		ArrayList<Piece> blackPieces = (ArrayList<Piece>) getBlackPieces();
+		ArrayList<Piece> whitePieces = (ArrayList<Piece>) getWhitePieces();
+
+		if (blackPieces.size() != 0)
+			ret.addAll(blackPieces);
+		if (whitePieces.size() != 0)
+			ret.addAll(whitePieces);
+
 		return ret;
 	}
 
@@ -92,80 +116,50 @@ public class Partie extends Observable {
 	 * retourne 0 si la partie n'est pas terminée -1 si c'est les noirs qui ont
 	 * gagné 1 si c'est les blancs qui ont gagné
 	 */
-	private int updateGameStatus() {
+	public void updateGameStatus() {
 		ArrayList<Piece> whitePieces = (ArrayList<Piece>) getWhitePieces();
 		ArrayList<Piece> blackPieces = (ArrayList<Piece>) getBlackPieces();
 		if (whitePieces.size() == 0) // si il n'y a plus de pièce blanche
-			return 1;
+			this.gameStatus = 1;
 		if (blackPieces.size() == 0)
-			return -1;
-		return 0;
+			this.gameStatus = -1;
+		this.gameStatus = 0;
 	}
 
 	public void onClickPiece(int p_x, int p_y) {
-
-		this.gameStatus = updateGameStatus();
-
-		Case c = this.plateau.cases[p_x][p_y];
-		if (!c.isLit) {
-			for (int x = 0; x < 8; x++) {
-				for (int y = 0; y < 8; y++) {
-					this.plateau.cases[x][y].removeHighlight();
-				}
-			}
-			notifyAllObservers();
-
-			if (c.piece == null)
-				return;
-			this.lastPieceClicked = c.piece;
-			if (this.whitesTurn == c.piece.couleur) {
-				Position[] pos = c.piece.getAvailablePositions();
-				System.out.println(pos.length);
-				for (int i = 0; i < pos.length; i++) {
-					if (pos[i] != null) {
-						int x = pos[i].x;
-						int y = pos[i].y;
-						System.out.println(x + " " + y);
-						this.plateau.cases[x][y].highlightCase();
-					}
-				}
-			}
+		if (this.whitesTurn) {
+//			if(this.blackPlayer instanceof JoueurIA) {
+				this.whitePlayer.play(p_x, p_y);
+//				this.blackPlayer.play(p_x, p_y);
+//			}
 		} else {
-			if (this.lastPieceClicked instanceof Pion) {
-				((Pion) this.lastPieceClicked).premierDeplacement = false;
-			}
-
-			Position[] pos = this.lastPieceClicked.getAvailablePositions();
-			for (Position p : pos) {
-				if (p != null) {
-					int xtmp = p.x;
-					int ytmp = p.y;
-					this.plateau.cases[xtmp][ytmp].removeHighlight();
-				}
-			}
-
-			// on recupere la position de la derniï¿½re piï¿½ce cliquï¿½e
-			int xp = this.lastPieceClicked.position.x;
-			int yp = this.lastPieceClicked.position.y;
-
-			// on l'enlï¿½ve de sont ancienne position
-			this.plateau.cases[xp][yp].removePiece();
-
-			// on met dans la case destination la piï¿½ce prï¿½cedemment
-			// cliquï¿½e
-			c.piece = this.lastPieceClicked;
-			// on modifie ï¿½galement sa position pour la rendre consiente du
-			// mouvement
-			c.piece.position = c.position;
-
-			this.whitesTurn = !this.whitesTurn; // on change de tour
-
+			this.blackPlayer.play(p_x, p_y);
 		}
-		notifyAllObservers();
 	}
 
 	public int getGameStatus() {
 		return this.gameStatus;
+	}
+
+	public void setlastPieceClicked(Piece piece) {
+		// TODO Auto-generated method stub
+		this.lastPieceClicked = piece;
+	}
+
+	public Case getCaseAt(int x, int y) {
+		return this.plateau.cases[x][y];
+	}
+
+	public void setWhiteInCheck() {
+		this.gameStatus = 1;
+	}
+
+	public void setBlackInCheck() {
+		this.gameStatus = 1;
+	}
+
+	public void switchSide() {
+		this.whitesTurn = !this.whitesTurn;
 	}
 
 }
