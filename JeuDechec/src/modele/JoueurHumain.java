@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class JoueurHumain extends Joueur {
 
-	public JoueurHumain(Partie partie,boolean couleur) {
-		super(partie,couleur);
+	public JoueurHumain(Partie partie, boolean couleur) {
+		super(partie, couleur);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -13,13 +13,13 @@ public class JoueurHumain extends Joueur {
 	protected void play(int p_x, int p_y) {
 		// TODO Auto-generated method stub
 		Case c = this.partie.getCaseAt(p_x, p_y);
-		
+
 		Piece lastPieceClicked = this.partie.getLastPieceClicked();
-		
+
 		if (!c.isLit) {
 			for (int x = 0; x < 8; x++) {
 				for (int y = 0; y < 8; y++) {
-					this.partie.getCaseAt(x,y).removeHighlight();
+					this.partie.getCaseAt(x, y).removeHighlight();
 				}
 			}
 			this.partie.notifyAllObservers();
@@ -34,50 +34,51 @@ public class JoueurHumain extends Joueur {
 					if (p != null) {
 						int x = p.x;
 						int y = p.y;
-						this.partie.getCaseAt(x,y).highlightCase();
+						this.partie.getCaseAt(x, y).highlightCase();
 					}
 				}
 			}
 		} else {
-			if (lastPieceClicked instanceof Pion) {
-				((Pion) lastPieceClicked).premierDeplacement = false;
-			}
+			if (lastPieceClicked.couleur == this.couleur) {
+				if (lastPieceClicked instanceof Pion) {
+					((Pion) lastPieceClicked).premierDeplacement = false;
+				}
 
-			ArrayList<Position> pos = lastPieceClicked.getAvailablePositions();
-			for (Position p : pos) {
-				if (p != null) {
-					int xtmp = p.x;
-					int ytmp = p.y;
-					this.partie.getCaseAt(xtmp,ytmp).removeHighlight();
+				ArrayList<Position> pos = lastPieceClicked.getAvailablePositions();
+				for (Position p : pos) {
+					if (p != null) {
+						int xtmp = p.x;
+						int ytmp = p.y;
+						this.partie.getCaseAt(xtmp, ytmp).removeHighlight();
+					}
+				}
+
+				// on recupere la position de la derni�re pi�ce cliqu�e
+				int xp = lastPieceClicked.position.x;
+				int yp = lastPieceClicked.position.y;
+
+				// on l'enl�ve de sont ancienne position
+				this.partie.getCaseAt(xp, yp).removePiece();
+
+				// on met dans la case destination la pi�ce pr�cedemment
+				// cliqu�e
+				c.piece = lastPieceClicked;
+				// on modifie �galement sa position pour la rendre consiente
+				// du
+				// mouvement
+				c.piece.position = c.position;
+
+				this.partie.switchSide(); // on change de tour
+				for (int x = 0; x < 8; x++) {
+					for (int y = 0; y < 8; y++) {
+						this.partie.getCaseAt(x, y).removeHighlight();
+					}
 				}
 			}
-
-			// on recupere la position de la derni�re pi�ce cliqu�e
-			int xp = lastPieceClicked.position.x;
-			int yp = lastPieceClicked.position.y;
-
-			// on l'enl�ve de sont ancienne position
-			this.partie.getCaseAt(xp,yp).removePiece();
-
-			// on met dans la case destination la pi�ce pr�cedemment
-			// cliqu�e
-			c.piece = lastPieceClicked;
-			// on modifie �galement sa position pour la rendre consiente du
-			// mouvement
-			c.piece.position = c.position;
-
-			this.partie.switchSide(); // on change de tour
-			for (int x = 0; x < 8; x++) {
-				for (int y = 0; y < 8; y++) {
-					this.partie.getCaseAt(x,y).removeHighlight();
-				}
-			}
-
 		}
 		this.partie.updateGameStatus();
 		this.partie.notifyAllObservers();
-		
+
 	}
-	
 
 }
