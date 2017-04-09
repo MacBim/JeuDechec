@@ -39,6 +39,7 @@ public class JoueurIA extends Joueur {
 				pieceVisited.add(currentPiece);
 			
 			if(pieceVisited.size() == pieces.size()){ // on a parcouru toute les pièces sans en trouver une bonne
+				// on est donc en échec
 				if(this.couleur == true) // blanc
 					this.partie.setWhiteInCheck();
 				else

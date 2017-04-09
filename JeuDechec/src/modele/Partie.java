@@ -128,10 +128,7 @@ public class Partie extends Observable {
 
 	public void onClickPiece(int p_x, int p_y) {
 		if (this.whitesTurn) {
-//			if(this.blackPlayer instanceof JoueurIA) {
-				this.whitePlayer.play(p_x, p_y);
-//				this.blackPlayer.play(p_x, p_y);
-//			}
+			this.whitePlayer.play(p_x, p_y);
 		} else {
 			this.blackPlayer.play(p_x, p_y);
 		}

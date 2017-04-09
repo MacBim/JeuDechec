@@ -60,10 +60,10 @@ public class JoueurHumain extends Joueur {
 				// on l'enl�ve de sont ancienne position
 				this.partie.getCaseAt(xp, yp).removePiece();
 
-				// on met dans la case destination la pi�ce pr�cedemment
-				// cliqu�e
+				// on met dans la case destination la piece precedemment
+				// cliquee
 				c.piece = lastPieceClicked;
-				// on modifie �galement sa position pour la rendre consiente
+				// on modifie egalement sa position pour la rendre consiente
 				// du
 				// mouvement
 				c.piece.position = c.position;
