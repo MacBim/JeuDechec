@@ -17,8 +17,8 @@ public class JoueurIA extends Joueur {
 		// on récupère les pièces de la meme couleur que le joueurIA
 		ArrayList<Piece> pieces = new ArrayList<>();
 		
-		for (int xtmp = 0; x < 8; x++) {
-			for (int ytmp = 0; y < 8; y++) {
+		for (int xtmp = 0; xtmp < 8; xtmp++) {
+			for (int ytmp = 0; ytmp < 8; ytmp++) {
 				this.partie.getCaseAt(xtmp,ytmp).removeHighlight();
 			}
 		}
@@ -37,7 +37,6 @@ public class JoueurIA extends Joueur {
 		while(currentPiece.getAvailablePositions().size() == 0){
 			if(!pieceVisited.contains(currentPiece))
 				pieceVisited.add(currentPiece);
-			
 			if(pieceVisited.size() == pieces.size()){ // on a parcouru toute les pièces sans en trouver une bonne
 				// on est donc en échec
 				if(this.couleur == true) // blanc
@@ -73,8 +72,8 @@ public class JoueurIA extends Joueur {
 		currentPiece.position = choosedPos;
 		this.partie.getCaseAt(newX, newY).addPiece(currentPiece);
 		
-		for (int xtmp = 0; x < 8; x++) {
-			for (int ytmp = 0; y < 8; y++) {
+		for (int xtmp = 0; xtmp < 8; xtmp++) {
+			for (int ytmp = 0; ytmp < 8; ytmp++) {
 				this.partie.getCaseAt(xtmp,ytmp).removeHighlight();
 			}
 		}

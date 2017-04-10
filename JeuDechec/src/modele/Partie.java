@@ -158,5 +158,9 @@ public class Partie extends Observable {
 	public void switchSide() {
 		this.whitesTurn = !this.whitesTurn;
 	}
+	
+	public Joueur getBlackPlayer(){
+		return this.blackPlayer;
+	}
 
 }
