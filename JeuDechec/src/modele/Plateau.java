@@ -2,6 +2,7 @@ package modele;
 
 public class Plateau {
 
+	
 	public Case[][] cases;
 
 	public Plateau() {
@@ -13,6 +14,12 @@ public class Plateau {
 				this.cases[x][y] = new Case(new Position(x, y));
 			}
 		}
+	}
+	
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return super.clone();
 	}
 
 }

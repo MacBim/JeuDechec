@@ -3,6 +3,8 @@ package modele;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 /**
  * @author jeanb
  *
@@ -61,6 +63,83 @@ public class Partie extends Observable {
 		this.blackPlayer = new JoueurIA(this, false);
 	}
 
+	public boolean verifCheckMate(boolean whitesTurn){
+		/* Verification de l'echec et math : 
+		 * 		On est en echec et math si pour tous les déplacements possibles
+		 * 		aucun empeche que le roi ne se fasse manger au tour suivant.
+		 * 		
+		 * 		Pour chaqes déplacements (A) possible, on simule un plateau identique
+		 * 		mais on fait comme si le coup (A) avait été joué, puis on regarde pour chaques pieces,
+		 * 		pour chaqes coups, si une piece peut se rendre à la position du rois, alors le coup (A) 
+		 * 		n'est pas valide.
+		 * 		Si aucun déplacement n'est valide, on est en situation déchec et math. 
+		*/
+		
+		List<Piece> activePlayerPieces;
+		List<Piece> otherPlayerPieces;
+		
+		// On récupere toutes les pieces.		
+		if (whitesTurn){ 	// => c'est le tour des blancs
+			activePlayerPieces = getWhitePieces();
+			otherPlayerPieces = getBlackPieces();
+		} else {			// => c'est le tour des noirs
+			activePlayerPieces = getBlackPieces();
+			otherPlayerPieces = getWhitePieces();
+		}
+		
+		// On récupere le roi du joueur dont c'est le tour
+		Piece king = null;
+		for (Piece piece : activePlayerPieces){
+			if(piece.getClass().getName() == "modele.Roi"){
+				king = piece;
+			}
+		}
+		
+		Plateau plateauTmp = null;
+		try {
+			plateauTmp = (Plateau) this.plateau.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		if(roiEstEnMat( plateauTmp, activePlayerPieces, otherPlayerPieces, king)){
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean roiEstEnMat(Plateau plat, List<Piece> ActivesPieces,List<Piece> othersPieces, Piece kingToTest){
+		boolean roiEnEchec ;
+		for (Piece pieceJA : ActivesPieces){
+			for (Position posJA : pieceJA.getAvailablePositions()){
+				plat = this.plateau;
+				plat.cases[posJA.x][posJA.y].addPiece(pieceJA);
+				Piece kingTmp = new Roi(kingToTest.couleur, plat, kingToTest.position);
+				if(!canBeEaten(plat, othersPieces, kingToTest)){
+					return false;
+				}
+			
+			}
+		}
+		return true;
+	}
+	
+	public boolean canBeEaten(Plateau plat, List<Piece> piecesToTest, Piece cible){
+		// On vérifie si une piece adverse peut allez sur la case de la cible
+		for (Piece piece : piecesToTest){
+			for (Position pos : piece.getAvailablePositions()){
+				if (pos.x == cible.position.x && pos.y == cible.position.y){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+
 	public List<Piece> getAllPieces() {
 		ArrayList<Piece> ret = new ArrayList<>();
 
@@ -73,6 +152,10 @@ public class Partie extends Observable {
 			ret.addAll(whitePieces);
 
 		return ret;
+	}
+	
+	public Joueur getBlackPlayer(){
+		return this.blackPlayer;
 	}
 
 	public Piece getLastPieceClicked() {
@@ -113,18 +196,30 @@ public class Partie extends Observable {
 	}
 
 	/*
-	 * retourne 0 si la partie n'est pas termin�e -1 si c'est les noirs qui ont
-	 * gagn� 1 si c'est les blancs qui ont gagn�
+	 * retourne 0 si la partie n'est pas termin�e -1 si c'est les noirs qui ont
+	 * gagn� 1 si c'est les blancs qui ont gagn�
 	 */
 	public void updateGameStatus() {
 		ArrayList<Piece> whitePieces = (ArrayList<Piece>) getWhitePieces();
 		ArrayList<Piece> blackPieces = (ArrayList<Piece>) getBlackPieces();
-		if (whitePieces.size() == 0) // si il n'y a plus de pi�ce blanche
-			this.gameStatus = 1;
-		if (blackPieces.size() == 0)
+		
+		// On doit verifier si y a echec et math
+		
+		if(verifCheckMate(whitesTurn)){
+			if(whitesTurn){
+				this.gameStatus = -1;
+			} else  this.gameStatus = 1;
+		}
+		
+		if (whitePieces.size() == 0) // si il n'y a plus de pi�ce blanche
 			this.gameStatus = -1;
+		if (blackPieces.size() == 0)
+			this.gameStatus = 1;
 		this.gameStatus = 0;
 	}
+	
+	
+	
 
 	public void onClickPiece(int p_x, int p_y) {
 		if (this.whitesTurn) {
@@ -157,10 +252,6 @@ public class Partie extends Observable {
 
 	public void switchSide() {
 		this.whitesTurn = !this.whitesTurn;
-	}
-	
-	public Joueur getBlackPlayer(){
-		return this.blackPlayer;
 	}
 
 }
