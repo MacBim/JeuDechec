@@ -68,16 +68,17 @@ public class JoueurHumain extends Joueur {
 				// mouvement
 				c.piece.position = c.position;
 
-				
 				for (int x = 0; x < 8; x++) {
 					for (int y = 0; y < 8; y++) {
 						this.partie.getCaseAt(x, y).removeHighlight();
 					}
 				}
-				
+
 				this.partie.switchSide(); // on change de tour
-				if(this.partie.getBlackPlayer() instanceof JoueurIA)
-					this.partie.getBlackPlayer().play(p_x, p_y); // note : x et y servent a rien
+				if (this.partie.getBlackPlayer() instanceof JoueurIA)
+					this.partie.getBlackPlayer().play(p_x, p_y); // note : x et
+																	// y servent
+																	// a rien
 			}
 		}
 		this.partie.updateGameStatus();
