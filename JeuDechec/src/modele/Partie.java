@@ -40,7 +40,7 @@ public class Partie extends Observable {
 			this.blackPlayer.play(p_x, p_y);
 		}
 		updateGameStatus();
-		switchSide(); // on change de tour
+		
 	}
 
 	public ArrayList<Piece> getWhitePieces() {

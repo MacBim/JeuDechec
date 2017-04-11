@@ -80,6 +80,7 @@ public class JoueurHumain extends Joueur {
 																	// y servent
 																	// a rien
 			}
+			this.partie.switchSide(); // on change de tour
 		}
 		this.partie.notifyAllObservers();
 
