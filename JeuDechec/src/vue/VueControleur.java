@@ -73,7 +73,7 @@ public class VueControleur extends Application implements ObserveurEchec {
 		boardGridPane.setGridLinesVisible(true);
 		border.setCenter(boardGridPane);
 
-		// création du panneau de control
+		// crï¿½ation du panneau de control
 		final Button playVsIAButton = new Button("Jouer contre l'ordinateur");
 		this.partie = new Partie();
 		final Partie partieTmp = this.partie;
@@ -119,6 +119,11 @@ public class VueControleur extends Application implements ObserveurEchec {
 	private void displayPieceImage(Plateau p, int x, int y) {
 		if (p.cases[x][y].piece != null) {
 			ImageView img = new ImageView(p.cases[x][y].piece.imagePath);
+			img.setPreserveRatio(true);
+			img.setFitWidth(50);
+			img.setFitHeight(50);
+			img.setLayoutY(15);
+			img.setLayoutX(15);
 			this.groups[x][y].getChildren().add(img);
 		}
 	}
@@ -142,7 +147,7 @@ public class VueControleur extends Application implements ObserveurEchec {
 				for (int i = this.groups[x][y].getChildren().size() - 1; i > 0; i--) {
 					this.groups[x][y].getChildren().remove(i);
 				}
-				// Affichage de l'image de la piï¿½ce
+				// Affichage de l'image de la piece
 				displayPieceImage(p, x, y);
 
 				// Coloration des cases
@@ -174,12 +179,12 @@ public class VueControleur extends Application implements ObserveurEchec {
 
 	private void displayEndGamePopup(int gameStatus) {
 		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Jeu d'échec");
-		alert.setHeaderText("La partie est terminée.");
+		alert.setTitle("Jeu d'ï¿½chec");
+		alert.setHeaderText("La partie est terminï¿½e.");
 		if (gameStatus == Partie.WHITE_IN_CHECK || gameStatus == Partie.WHITE_IN_CHECKMATE) // blanc
-			alert.setContentText("Les blancs ont gagnés !");
+			alert.setContentText("Les blancs ont gagnï¿½s !");
 		else // noir
-			alert.setContentText("Les noirs ont gagnés !");
+			alert.setContentText("Les noirs ont gagnï¿½s !");
 		alert.showAndWait();
 	}
 

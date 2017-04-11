@@ -46,10 +46,12 @@ public class Roi extends Piece {
 			}
 			
 			// We need do check if king can be eaten where he goes
-			// But can do it here like ths
+			// But can do it here like this
+			
 //			if (canGetKilled(pos)){
 //				return false;
 //			}
+			
 			// Because obviously it will lead to an infinite recursive loop
 			// causing Stack overflow 
 			// TODO: Find a way
