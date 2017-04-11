@@ -77,6 +77,7 @@ public class JoueurIA extends Joueur {
 				this.partie.getCaseAt(xtmp, ytmp).removeHighlight();
 			}
 		}
+		this.partie.updateGameStatus();
 		this.partie.switchSide();
 		this.partie.notifyAllObservers();
 	}
