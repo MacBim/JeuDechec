@@ -14,7 +14,7 @@ public class Roi extends Piece {
 		setImagePath();
 	}
 
-	@Override
+	@Override	
 	public ArrayList<Position> getAvailablePositions() {
 		ArrayList<Position> pos = new ArrayList<>();
 
@@ -44,10 +44,16 @@ public class Roi extends Piece {
 			if (this.plateau.cases[pos.x][pos.y].piece.couleur == this.couleur) {
 				return false;
 			}
-
+			
+			// We need do check if king can be eaten where he goes
+			// But can do it here like ths
+//			if (canGetKilled(pos)){
+//				return false;
+//			}
+			// Because obviously it will lead to an infinite recursive loop
+			// causing Stack overflow 
+			// TODO: Find a way
 		}
-
-		// TODO: Ajouter "else if (EchecEtMath()) return false;"
 
 		return true;
 
@@ -75,5 +81,29 @@ public class Roi extends Piece {
 	public void coupValide(Coup coup) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	
+	/*
+	 * We need to check if from the selected position the king can be killed
+	 */
+	
+	public boolean canGetKilled(Position pos){
+		ArrayList<Piece> oponentPieces = this.plateau.getPiecesFromColor(!this.couleur);
+		Roi roiTmp = new Roi(this.couleur, this.plateau, pos);
+		Plateau plateauTmp = this.plateau.clone();
+		
+		// Switch cases
+		plateauTmp.cases[roiTmp.position.x][roiTmp.position.y].piece = null;
+		plateauTmp.cases[pos.x][pos.y].piece = roiTmp;
+		
+		for(Piece oponentPiece : oponentPieces){
+			ArrayList<Position> oponentPositions = oponentPiece.getAvailablePositions();
+			for(Position oponentPos : oponentPositions){
+				if (oponentPos == pos)
+					return true;
+			}
+		}
+		return false;
 	}
 }

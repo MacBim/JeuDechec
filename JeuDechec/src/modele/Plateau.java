@@ -17,7 +17,7 @@ public class Plateau {
 		}
 	}
 
-	protected Plateau clone() {
+	public Plateau clone() {
 		Plateau ret = new Plateau();
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
@@ -27,22 +27,22 @@ public class Plateau {
 					Piece tmp = this.cases[x][y].piece;
 					switch (tmp.getClass().getSimpleName()) {
 					case "Pion":
-						ret.cases[x][y].addPiece(new Pion(tmp.couleur, this, new Position(x, y)));
+						ret.cases[x][y].addPiece(new Pion(tmp.couleur, ret, new Position(x, y)));
 						break;
 					case "Cavalier":
-						ret.cases[x][y].addPiece(new Cavalier(tmp.couleur, this, new Position(x, y)));
+						ret.cases[x][y].addPiece(new Cavalier(tmp.couleur, ret, new Position(x, y)));
 						break;
 					case "Roi":
-						ret.cases[x][y].addPiece(new Roi(tmp.couleur, this, new Position(x, y)));
+						ret.cases[x][y].addPiece(new Roi(tmp.couleur, ret, new Position(x, y)));
 						break;
 					case "Reine":
-						ret.cases[x][y].addPiece(new Reine(tmp.couleur, this, new Position(x, y)));
+						ret.cases[x][y].addPiece(new Reine(tmp.couleur, ret, new Position(x, y)));
 						break;
 					case "Tour":
-						ret.cases[x][y].addPiece(new Tour(tmp.couleur, this, new Position(x, y)));
+						ret.cases[x][y].addPiece(new Tour(tmp.couleur, ret, new Position(x, y)));
 						break;
 					case "Fou":
-						ret.cases[x][y].addPiece(new Fou(tmp.couleur, this, new Position(x, y)));
+						ret.cases[x][y].addPiece(new Fou(tmp.couleur, ret, new Position(x, y)));
 						break;
 					}
 				}
@@ -76,6 +76,11 @@ public class Plateau {
 				}
 			}
 		}
+		return ret;
+	}
+	
+	public ArrayList<Piece> getPiecesFromColor(boolean color){
+		ArrayList<Piece> ret = (color ? (getWhitePieces()) : (getBlackPieces()));
 		return ret;
 	}
 
