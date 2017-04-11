@@ -103,7 +103,6 @@ public class Partie extends Observable {
 			e.printStackTrace();
 		}
 		
-		
 		if(roiEstEnMat( plateauTmp, activePlayerPieces, otherPlayerPieces, king)){
 			return true;
 		}
