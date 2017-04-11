@@ -1,7 +1,6 @@
 package modele;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author jeanb
@@ -43,62 +42,18 @@ public class Partie extends Observable {
 		
 	}
 
-	public ArrayList<Piece> getWhitePieces() {
-		ArrayList<Piece> ret = new ArrayList<>();
-		for (int x = 0; x < 8; x++) {
-			for (int y = 0; y < 8; y++) {
-				if (this.plateau.cases[x][y].piece != null) {
-					Piece currentPiece = this.plateau.cases[x][y].piece;
-					if (currentPiece.couleur == Piece.BLANC)
-						ret.add(currentPiece);
-				}
-			}
-		}
-		return ret;
-	}
-
-	public ArrayList<Piece> getBlackPieces() {
-		ArrayList<Piece> ret = new ArrayList<>();
-		for (int x = 0; x < 8; x++) {
-			for (int y = 0; y < 8; y++) {
-				if (this.plateau.cases[x][y].piece != null) {
-					Piece currentPiece = this.plateau.cases[x][y].piece;
-					if (currentPiece.couleur == Piece.NOIR)
-						ret.add(currentPiece);
-				}
-			}
-		}
-		return ret;
-	}
-
 	public void setPlayerTwoAsIA() {
 		this.blackPlayer = new JoueurIA(this, false);
 	}
 
-	public boolean verifCheckMate(boolean whitesTurn) {
-		/*
-		 * Verification de l'echec et math : On est en echec et math si pour
-		 * tous les dÃ©placements possibles aucun empeche que le roi ne se fasse
-		 * manger au tour suivant.
-		 * 
-		 * Pour chaqes deplacements (A) possible, on simule un plateau
-		 * identique mais on fait comme si le coup (A) avait ete joue, puis
-		 * on regarde pour chaques pieces, pour chaqes coups, si une piece peut
-		 * se rendre Ã  la position du rois, alors le coup (A) n'est pas valide.
-		 * Si aucun dÃ©placement n'est valide, on est en situation dÃ©chec et
-		 * math.
-		 */
-
+	public boolean verifCheckMate() {
 		ArrayList<Piece> activePlayerPieces;
-		ArrayList<Piece> oponentPlayerPieces;
 
 		// On recupere toutes les pieces.
 		if (whitesTurn) { // => c'est le tour des blancs
-			activePlayerPieces = getWhitePieces();
-			oponentPlayerPieces = getBlackPieces();
+			activePlayerPieces = this.plateau.getWhitePieces();
 		} else { // => c'est le tour des noirs
-			activePlayerPieces = getBlackPieces();
-			oponentPlayerPieces = getWhitePieces();
+			activePlayerPieces = this.plateau.getBlackPieces();
 		}
 
 		// On recupere le roi du joueur dont c'est le tour
@@ -106,67 +61,93 @@ public class Partie extends Observable {
 		for (Piece piece : activePlayerPieces) {
 			if (piece instanceof Roi) {
 				king = piece;
+				break;
 			}
 		}
-
-		Plateau tmpBoard = null;
-		tmpBoard = this.plateau.clone();
-
-		Piece checkPiece = isKingInCheck(tmpBoard, activePlayerPieces, oponentPlayerPieces, king);
-		if (checkPiece != null) { // dans le cas ou le roi ne peut plus rien
-									// faire
-			// on regarde si la piece responsable peut etre mangée
-			Piece iCanEatIt_Piece = whoCanEatTarget(tmpBoard, oponentPlayerPieces, checkPiece);
-			if (iCanEatIt_Piece == null) // si personne ne peut manger la pièce
-									// responsable
-				return true;
+		
+		if (isCurrentPlayersKingInCheckMate(king)){
+			switchSide();
+			return true;
 		}
+
 		return false;
 	}
 
 	/**
-	 * @param plat
-	 *            The board to simulate the moves
-	 * @param playerPieces
-	 *            The player's pieces
-	 * @param oponentPieces
-	 *            The oponent's pieces
-	 * @param kingToTest
+	 * @param king
 	 *            The king of the current player
 	 * @return The piece responsible of the check, null otherwise
 	 */
-	public Piece isKingInCheck(Plateau plat, ArrayList<Piece> playerPieces, ArrayList<Piece> oponentPieces,
-			Piece kingToTest) {
-		for (Piece pieceJA : playerPieces) {
-			for (Position posJA : pieceJA.getAvailablePositions()) {
-				plat.cases[posJA.x][posJA.y].addPiece(pieceJA); // on simule le
-																// déplacement
-				Piece ret = whoCanEatTarget(plat, oponentPieces, kingToTest);
-				if (ret != null) {
-					return ret;
+	public boolean isCurrentPlayerKingInCheck(Piece king) {	
+		if(king.getAvailablePositions().size() == 0)
+			return true;
+		return false;
+	}
+	
+	public boolean isCurrentPlayersKingInCheckMate(Piece king){
+		// le roi est en échec donc il ne peut plus bouger
+		if(!isCurrentPlayerKingInCheck(king)){
+			System.out.println("le roi peut bouger");
+			return false;
+		}
+		
+		ArrayList<Piece> playersPieces = new ArrayList<>();
+		ArrayList<Piece> oponentPieces = new ArrayList<>();
+		
+		
+		if(!this.whitesTurn) {
+			oponentPieces = this.plateau.getWhitePieces();
+			playersPieces = this.plateau.getBlackPieces();
+		}
+		else {
+			oponentPieces = this.plateau.getBlackPieces();
+			playersPieces = this.plateau.getWhitePieces();
+		}
+		/* on recherche quelles pièces parmis celles de l'adversaire peuvent manger le Roi du joueur courant */
+		ArrayList<Piece> predators = whoCanEatTarget(oponentPieces,king);
+		System.err.println("predator.size() " + predators.size());
+		if(predators.size() == 0) //si personne ne peut manger le roi, il n'est pas en echec et mat
+			return false;
+		
+		/* Maintenant, parmis les pièces du joueur, les quelles peuvent manger le prédateur ? */	
+		ArrayList<Piece> predatorsEliminated = new ArrayList<>();
+		
+		for(Piece predator : predators){ // pour chaque prédateur...
+			for(Piece p : playersPieces){ // on regarde pour toutes les pièces du joueur si...
+				for(Position pos : p.getAvailablePositions()){ // chaques positions disponnibles des pièces...
+					// ... qui éliminent (mange) un prédateur (pas déja éliminé)
+					if(pos.equals(predator.position) && !predatorsEliminated.contains(predator)){ // 
+						predatorsEliminated.add(predator);
+					}
 				}
 			}
 		}
-		return null;
+		
+		if(predators.size() != predatorsEliminated.size()) // si au moin UN predateur est encore envie, echec et mat
+			return true;
+		
+		
+		return false;
 	}
 
-	public Piece whoCanEatTarget(Plateau plat, List<Piece> piecesToTest, Piece target) {
+	public ArrayList<Piece> whoCanEatTarget(ArrayList<Piece> pieces,Piece target) {
 		// On vÃ©rifie si une piece adverse peut allez sur la case de la cible
-		for (Piece piece : piecesToTest) {
+		ArrayList<Piece> ret = new ArrayList<>();
+		for (Piece piece : pieces) {
 			for (Position pos : piece.getAvailablePositions()) {
 				if (pos.equals(target.position)) {
-					return piece;
+					ret.add(piece);
 				}
 			}
 		}
-		return null;
+		return ret; // la liste des prédateur de target
 	}
 
 	public ArrayList<Piece> getAllPieces() {
 		ArrayList<Piece> ret = new ArrayList<>();
 
-		ArrayList<Piece> blackPieces = (ArrayList<Piece>) getBlackPieces();
-		ArrayList<Piece> whitePieces = (ArrayList<Piece>) getWhitePieces();
+		ArrayList<Piece> blackPieces = this.plateau.getBlackPieces();
+		ArrayList<Piece> whitePieces = this.plateau.getWhitePieces();
 
 		if (blackPieces.size() != 0)
 			ret.addAll(blackPieces);
@@ -222,19 +203,18 @@ public class Partie extends Observable {
 	 * ont gagnï¿½ 1 si c'est les blancs qui ont gagnï¿½
 	 */
 	public void updateGameStatus() {
-		ArrayList<Piece> whitePieces = (ArrayList<Piece>) getWhitePieces();
-		ArrayList<Piece> blackPieces = (ArrayList<Piece>) getBlackPieces();
-
 		// On doit verifier si y a echec et math
-		if (verifCheckMate(whitesTurn)) {
-			if (whitesTurn)
+		if (verifCheckMate()) {
+			if (this.whitesTurn)
 				this.gameStatus = Partie.WHITE_IN_CHECKMATE;
 			else
 				this.gameStatus = Partie.BLACK_IN_CHECKMATE;
 			return;
 		}
 
-		if (whitePieces.size() == 0) // si il n'y a plus de piï¿½ce blanche
+		ArrayList<Piece> whitePieces = this.plateau.getWhitePieces();
+		ArrayList<Piece> blackPieces = this.plateau.getBlackPieces();
+		if (whitePieces.size() == 0) // si il n'y a plus de piece blanche
 			this.gameStatus = Partie.BLACK_IN_CHECK;
 		else if (blackPieces.size() == 0)
 			this.gameStatus = Partie.WHITE_IN_CHECK;

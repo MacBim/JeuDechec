@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.ArrayList;
+
 public class Plateau {
 
 	public Case[][] cases;
@@ -43,6 +45,34 @@ public class Plateau {
 						ret.cases[x][y].addPiece(new Fou(tmp.couleur, this, new Position(x, y)));
 						break;
 					}
+				}
+			}
+		}
+		return ret;
+	}
+	
+	public ArrayList<Piece> getWhitePieces(){
+		ArrayList<Piece> ret = new ArrayList<>();
+		for (int x = 0; x < 8; x++) {
+			for (int y = 0; y < 8; y++) {
+				if (this.cases[x][y].piece != null) {
+					Piece currentPiece = this.cases[x][y].piece;
+					if (currentPiece.couleur == Piece.BLANC)
+						ret.add(currentPiece);
+				}
+			}
+		}
+		return ret;
+	}
+	
+	public ArrayList<Piece> getBlackPieces(){
+		ArrayList<Piece> ret = new ArrayList<>();
+		for (int x = 0; x < 8; x++) {
+			for (int y = 0; y < 8; y++) {
+				if (this.cases[x][y].piece != null) {
+					Piece currentPiece = this.cases[x][y].piece;
+					if (currentPiece.couleur == Piece.NOIR)
+						ret.add(currentPiece);
 				}
 			}
 		}

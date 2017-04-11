@@ -38,7 +38,6 @@ public class Roi extends Piece {
 	}
 
 	public boolean caseOccupable(Position pos) {
-		System.out.println(pos.x + " " + pos.y);
 		if (pos.x > 7 || pos.x < 0 || pos.y > 7 || pos.y < 0)
 			return false;
 		else if (this.plateau.cases[pos.x][pos.y].piece != null) {

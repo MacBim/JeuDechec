@@ -29,7 +29,6 @@ public class JoueurHumain extends Joueur {
 			this.partie.setlastPieceClicked(c.piece);
 			if (this.couleur == c.piece.couleur) {
 				ArrayList<Position> pos = c.piece.getAvailablePositions();
-				System.out.println(pos.size());
 				for (Position p : pos) {
 					if (p != null) {
 						int x = p.x;

@@ -24,9 +24,9 @@ public class JoueurIA extends Joueur {
 
 		// on récupère les pièces de la meme couleur que le joueurIA
 		if (this.couleur == true) // aka blanc
-			pieces = (ArrayList<Piece>) this.partie.getWhitePieces();
+			pieces = this.partie.plateau.getWhitePieces();
 		else
-			pieces = (ArrayList<Piece>) this.partie.getBlackPieces();
+			pieces = this.partie.plateau.getBlackPieces();
 
 		Random rand = new Random();
 		int index = rand.nextInt(pieces.size());
