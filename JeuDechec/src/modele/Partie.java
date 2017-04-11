@@ -17,13 +17,13 @@ public class Partie extends Observable {
 
 	private Piece lastPieceClicked = null;
 	private int gameStatus;
-	
+
 	public final static int WHITE_IN_CHECK = 1;
 	public final static int BLACK_IN_CHECK = -1;
-	
+
 	public final static int WHITE_IN_CHECKMATE = 2;
 	public final static int BLACK_IN_CHECKMATE = -2;
-	
+
 	public final static int NOBODY_IN_CHECK = 0;
 
 	public Partie() {
@@ -32,9 +32,15 @@ public class Partie extends Observable {
 		this.blackPlayer = new JoueurHumain(this, false);
 		this.whitePlayer = new JoueurHumain(this, true);
 	}
-
-	public void start() {
-
+	
+	public void onClickPiece(int p_x, int p_y) {
+		if (this.whitesTurn) {
+			this.whitePlayer.play(p_x, p_y);
+		} else {
+			this.blackPlayer.play(p_x, p_y);
+		}
+		updateGameStatus();
+		switchSide(); // on change de tour
 	}
 
 	public ArrayList<Piece> getWhitePieces() {
@@ -75,8 +81,8 @@ public class Partie extends Observable {
 		 * tous les dÃ©placements possibles aucun empeche que le roi ne se fasse
 		 * manger au tour suivant.
 		 * 
-		 * Pour chaqes dÃ©placements (A) possible, on simule un plateau
-		 * identique mais on fait comme si le coup (A) avait Ã©tÃ© jouÃ©, puis
+		 * Pour chaqes deplacements (A) possible, on simule un plateau
+		 * identique mais on fait comme si le coup (A) avait ete joue, puis
 		 * on regarde pour chaques pieces, pour chaqes coups, si une piece peut
 		 * se rendre Ã  la position du rois, alors le coup (A) n'est pas valide.
 		 * Si aucun dÃ©placement n'est valide, on est en situation dÃ©chec et
@@ -84,15 +90,15 @@ public class Partie extends Observable {
 		 */
 
 		ArrayList<Piece> activePlayerPieces;
-		ArrayList<Piece> otherPlayerPieces;
+		ArrayList<Piece> oponentPlayerPieces;
 
 		// On recupere toutes les pieces.
 		if (whitesTurn) { // => c'est le tour des blancs
 			activePlayerPieces = getWhitePieces();
-			otherPlayerPieces = getBlackPieces();
+			oponentPlayerPieces = getBlackPieces();
 		} else { // => c'est le tour des noirs
 			activePlayerPieces = getBlackPieces();
-			otherPlayerPieces = getWhitePieces();
+			oponentPlayerPieces = getWhitePieces();
 		}
 
 		// On recupere le roi du joueur dont c'est le tour
@@ -103,37 +109,42 @@ public class Partie extends Observable {
 			}
 		}
 
-		Plateau plateauTmp = null;
-		plateauTmp = this.plateau.clone();
-		
-		Piece checkPiece = isKingInCheck(plateauTmp, activePlayerPieces, otherPlayerPieces, king);
-		if (checkPiece != null) {  // dans le cas ou le roi ne peut plus rien faire
+		Plateau tmpBoard = null;
+		tmpBoard = this.plateau.clone();
+
+		Piece checkPiece = isKingInCheck(tmpBoard, activePlayerPieces, oponentPlayerPieces, king);
+		if (checkPiece != null) { // dans le cas ou le roi ne peut plus rien
+									// faire
 			// on regarde si la piece responsable peut etre mangée
-			Piece predator = whoCanEatTarget(plateauTmp, otherPlayerPieces, checkPiece);
-			if(predator == null) // si personne ne peut manger la pièce responsable
+			Piece iCanEatIt_Piece = whoCanEatTarget(tmpBoard, oponentPlayerPieces, checkPiece);
+			if (iCanEatIt_Piece == null) // si personne ne peut manger la pièce
+									// responsable
 				return true;
 		}
-
 		return false;
 	}
 
 	/**
-	 * @param plat The board to simulate the moves
-	 * @param playerPieces The player's pieces
-	 * @param oponentPieces The oponent's pieces
-	 * @param kingToTest The king of the current player
+	 * @param plat
+	 *            The board to simulate the moves
+	 * @param playerPieces
+	 *            The player's pieces
+	 * @param oponentPieces
+	 *            The oponent's pieces
+	 * @param kingToTest
+	 *            The king of the current player
 	 * @return The piece responsible of the check, null otherwise
 	 */
 	public Piece isKingInCheck(Plateau plat, ArrayList<Piece> playerPieces, ArrayList<Piece> oponentPieces,
 			Piece kingToTest) {
 		for (Piece pieceJA : playerPieces) {
 			for (Position posJA : pieceJA.getAvailablePositions()) {
-				plat.cases[posJA.x][posJA.y].addPiece(pieceJA); // on simule le déplacement
+				plat.cases[posJA.x][posJA.y].addPiece(pieceJA); // on simule le
+																// déplacement
 				Piece ret = whoCanEatTarget(plat, oponentPieces, kingToTest);
-				if ( ret != null) {
+				if (ret != null) {
 					return ret;
 				}
-
 			}
 		}
 		return null;
@@ -217,26 +228,18 @@ public class Partie extends Observable {
 		// On doit verifier si y a echec et math
 		if (verifCheckMate(whitesTurn)) {
 			if (whitesTurn)
-				this.gameStatus = -2;
+				this.gameStatus = Partie.WHITE_IN_CHECKMATE;
 			else
-				this.gameStatus = 2;
+				this.gameStatus = Partie.BLACK_IN_CHECKMATE;
 			return;
 		}
 
 		if (whitePieces.size() == 0) // si il n'y a plus de piï¿½ce blanche
-			this.gameStatus = -1;
+			this.gameStatus = Partie.BLACK_IN_CHECK;
 		else if (blackPieces.size() == 0)
-			this.gameStatus = 1;
+			this.gameStatus = Partie.WHITE_IN_CHECK;
 		else
-			this.gameStatus = 0;
-	}
-
-	public void onClickPiece(int p_x, int p_y) {
-		if (this.whitesTurn) {
-			this.whitePlayer.play(p_x, p_y);
-		} else {
-			this.blackPlayer.play(p_x, p_y);
-		}
+			this.gameStatus = Partie.NOBODY_IN_CHECK;
 	}
 
 	public int getGameStatus() {

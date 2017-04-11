@@ -116,14 +116,14 @@ public class VueControleur extends Application implements ObserveurEchec {
 		}
 	}
 
-	private void affichePieceCase(Plateau p, int x, int y) {
+	private void displayPieceImage(Plateau p, int x, int y) {
 		if (p.cases[x][y].piece != null) {
 			ImageView img = new ImageView(p.cases[x][y].piece.imagePath);
 			this.groups[x][y].getChildren().add(img);
 		}
 	}
 
-	public void updateVue() {
+	public void updateView() {
 		Plateau p = this.partie.plateau;
 
 		boolean currentTurn = this.partie.whitesTurn;
@@ -143,7 +143,7 @@ public class VueControleur extends Application implements ObserveurEchec {
 					this.groups[x][y].getChildren().remove(i);
 				}
 				// Affichage de l'image de la pi�ce
-				affichePieceCase(p, x, y);
+				displayPieceImage(p, x, y);
 
 				// Coloration des cases
 				colorCase(colorRect, p, x, y);
@@ -166,7 +166,7 @@ public class VueControleur extends Application implements ObserveurEchec {
 		if (gameStatus == Partie.NOBODY_IN_CHECK) { // personne n'a encore
 													// gagner, on continue de
 													// jouer
-			updateVue();
+			updateView();
 			return;
 		}
 		displayEndGamePopup(gameStatus);

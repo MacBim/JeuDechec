@@ -16,7 +16,7 @@ public class JoueurHumain extends Joueur {
 
 		Piece lastPieceClicked = this.partie.getLastPieceClicked();
 
-		if (!c.isLit) {
+		if (!c.isLit) { // premier clic
 			for (int x = 0; x < 8; x++) {
 				for (int y = 0; y < 8; y++) {
 					this.partie.getCaseAt(x, y).removeHighlight();
@@ -38,8 +38,9 @@ public class JoueurHumain extends Joueur {
 					}
 				}
 			}
-		} else {
+		} else { // second clic sur une position valide
 			if (lastPieceClicked.couleur == this.couleur) {
+				
 				if (lastPieceClicked instanceof Pion) {
 					((Pion) lastPieceClicked).premierDeplacement = false;
 				}
@@ -74,14 +75,12 @@ public class JoueurHumain extends Joueur {
 					}
 				}
 
-				this.partie.switchSide(); // on change de tour
 				if (this.partie.getBlackPlayer() instanceof JoueurIA)
 					this.partie.getBlackPlayer().play(p_x, p_y); // note : x et
 																	// y servent
 																	// a rien
 			}
 		}
-		this.partie.updateGameStatus();
 		this.partie.notifyAllObservers();
 
 	}

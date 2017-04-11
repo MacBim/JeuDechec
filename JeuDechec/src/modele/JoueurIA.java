@@ -78,8 +78,6 @@ public class JoueurIA extends Joueur {
 			}
 		}
 		this.partie.notifyAllObservers();
-
-		this.partie.switchSide();
 	}
 
 }
