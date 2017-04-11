@@ -98,7 +98,7 @@ public class VueControleur extends Application implements ObserveurEchec {
 		primaryStage.show();
 		
 		this.partie.subscribe(this);
-		this.partie.remplirPlateau();
+		this.partie.fillCheckBoard();
 
 	}
 	

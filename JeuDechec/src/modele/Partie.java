@@ -3,8 +3,6 @@ package modele;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 /**
  * @author jeanb
  *
@@ -31,7 +29,7 @@ public class Partie extends Observable {
 
 	}
 
-	public List<Piece> getWhitePieces() {
+	public ArrayList<Piece> getWhitePieces() {
 		ArrayList<Piece> ret = new ArrayList<>();
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
@@ -45,7 +43,7 @@ public class Partie extends Observable {
 		return ret;
 	}
 
-	public List<Piece> getBlackPieces() {
+	public ArrayList<Piece> getBlackPieces() {
 		ArrayList<Piece> ret = new ArrayList<>();
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
@@ -63,81 +61,75 @@ public class Partie extends Observable {
 		this.blackPlayer = new JoueurIA(this, false);
 	}
 
-	public boolean verifCheckMate(boolean whitesTurn){
-		/* Verification de l'echec et math : 
-		 * 		On est en echec et math si pour tous les déplacements possibles
-		 * 		aucun empeche que le roi ne se fasse manger au tour suivant.
-		 * 		
-		 * 		Pour chaqes déplacements (A) possible, on simule un plateau identique
-		 * 		mais on fait comme si le coup (A) avait été joué, puis on regarde pour chaques pieces,
-		 * 		pour chaqes coups, si une piece peut se rendre à la position du rois, alors le coup (A) 
-		 * 		n'est pas valide.
-		 * 		Si aucun déplacement n'est valide, on est en situation déchec et math. 
-		*/
-		
-		List<Piece> activePlayerPieces;
-		List<Piece> otherPlayerPieces;
-		
-		// On récupere toutes les pieces.		
-		if (whitesTurn){ 	// => c'est le tour des blancs
+	public boolean verifCheckMate(boolean whitesTurn) {
+		/*
+		 * Verification de l'echec et math : On est en echec et math si pour
+		 * tous les déplacements possibles aucun empeche que le roi ne se fasse
+		 * manger au tour suivant.
+		 * 
+		 * Pour chaqes déplacements (A) possible, on simule un plateau
+		 * identique mais on fait comme si le coup (A) avait été joué, puis
+		 * on regarde pour chaques pieces, pour chaqes coups, si une piece peut
+		 * se rendre à la position du rois, alors le coup (A) n'est pas valide.
+		 * Si aucun déplacement n'est valide, on est en situation déchec et
+		 * math.
+		 */
+
+		ArrayList<Piece> activePlayerPieces;
+		ArrayList<Piece> otherPlayerPieces;
+
+		// On recupere toutes les pieces.
+		if (whitesTurn) { // => c'est le tour des blancs
 			activePlayerPieces = getWhitePieces();
 			otherPlayerPieces = getBlackPieces();
-		} else {			// => c'est le tour des noirs
+		} else { // => c'est le tour des noirs
 			activePlayerPieces = getBlackPieces();
 			otherPlayerPieces = getWhitePieces();
 		}
-		
-		// On récupere le roi du joueur dont c'est le tour
+
+		// On recupere le roi du joueur dont c'est le tour
 		Piece king = null;
-		for (Piece piece : activePlayerPieces){
-			if(piece.getClass().getName() == "modele.Roi"){
+		for (Piece piece : activePlayerPieces) {
+			if (piece instanceof Roi) {
 				king = piece;
 			}
 		}
-		
+
 		Plateau plateauTmp = null;
-		try {
-			plateauTmp = (Plateau) this.plateau.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		if(roiEstEnMat( plateauTmp, activePlayerPieces, otherPlayerPieces, king)){
+		plateauTmp = this.plateau.clone();
+
+		if (roiEstEnMat(plateauTmp, activePlayerPieces, otherPlayerPieces, king)) {
 			return true;
 		}
-		
+
 		return false;
 	}
-	
-	public boolean roiEstEnMat(Plateau plat, List<Piece> ActivesPieces,List<Piece> othersPieces, Piece kingToTest){
-		boolean roiEnEchec ;
-		for (Piece pieceJA : ActivesPieces){
-			for (Position posJA : pieceJA.getAvailablePositions()){
-				plat = this.plateau;
-				plat.cases[posJA.x][posJA.y].addPiece(pieceJA);
-				Piece kingTmp = new Roi(kingToTest.couleur, plat, kingToTest.position);
-				if(!canBeEaten(plat, othersPieces, kingToTest)){
+
+	public boolean roiEstEnMat(Plateau plat, ArrayList<Piece> ActivesPieces, ArrayList<Piece> oponentPieces,
+			Piece kingToTest) {
+		for (Piece pieceJA : ActivesPieces) {
+			for (Position posJA : pieceJA.getAvailablePositions()) {
+				plat.cases[posJA.x][posJA.y].addPiece(pieceJA); // on simule le d�placement 
+				if (!canBeEaten(plat, oponentPieces, kingToTest)) {
 					return false;
 				}
-			
+
 			}
 		}
 		return true;
 	}
-	
-	public boolean canBeEaten(Plateau plat, List<Piece> piecesToTest, Piece cible){
+
+	public boolean canBeEaten(Plateau plat, List<Piece> piecesToTest, Piece target) {
 		// On vérifie si une piece adverse peut allez sur la case de la cible
-		for (Piece piece : piecesToTest){
-			for (Position pos : piece.getAvailablePositions()){
-				if (pos.x == cible.position.x && pos.y == cible.position.y){
+		for (Piece piece : piecesToTest) {
+			for (Position pos : piece.getAvailablePositions()) {
+				if (pos.x == target.position.x && pos.y == target.position.y) {
 					return true;
 				}
 			}
 		}
 		return false;
 	}
-	
 
 	public List<Piece> getAllPieces() {
 		ArrayList<Piece> ret = new ArrayList<>();
@@ -152,8 +144,8 @@ public class Partie extends Observable {
 
 		return ret;
 	}
-	
-	public Joueur getBlackPlayer(){
+
+	public Joueur getBlackPlayer() {
 		return this.blackPlayer;
 	}
 
@@ -161,7 +153,7 @@ public class Partie extends Observable {
 		return this.lastPieceClicked;
 	}
 
-	public void remplirPlateau() {
+	public void fillCheckBoard() {
 		this.plateau.cases[0][0].addPiece(new Tour(Piece.NOIR, this.plateau, new Position(0, 0)));
 		this.plateau.cases[7][0].addPiece(new Tour(Piece.NOIR, this.plateau, new Position(7, 0)));
 
@@ -195,30 +187,30 @@ public class Partie extends Observable {
 	}
 
 	/*
-	 * retourne 0 si la partie n'est pas termin�e -1 si c'est les noirs qui ont
-	 * gagn� 1 si c'est les blancs qui ont gagn�
+	 * retourne 0 si la partie n'est pas termin�e -1 si c'est les noirs qui
+	 * ont gagn� 1 si c'est les blancs qui ont gagn�
 	 */
 	public void updateGameStatus() {
 		ArrayList<Piece> whitePieces = (ArrayList<Piece>) getWhitePieces();
 		ArrayList<Piece> blackPieces = (ArrayList<Piece>) getBlackPieces();
-		
+
 		// On doit verifier si y a echec et math
-		
-		if(verifCheckMate(whitesTurn)){
-			if(whitesTurn){
+
+		if (verifCheckMate(whitesTurn)) {
+			if (whitesTurn)
 				this.gameStatus = -1;
-			} else  this.gameStatus = 1;
+			else
+				this.gameStatus = 1;
+			return;
 		}
-		
+
 		if (whitePieces.size() == 0) // si il n'y a plus de pi�ce blanche
 			this.gameStatus = -1;
-		if (blackPieces.size() == 0)
+		else if (blackPieces.size() == 0)
 			this.gameStatus = 1;
-		this.gameStatus = 0;
+		else
+			this.gameStatus = 0;
 	}
-	
-	
-	
 
 	public void onClickPiece(int p_x, int p_y) {
 		if (this.whitesTurn) {
