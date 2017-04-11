@@ -17,6 +17,14 @@ public class Partie extends Observable {
 
 	private Piece lastPieceClicked = null;
 	private int gameStatus;
+	
+	public final static int WHITE_IN_CHECK = 1;
+	public final static int BLACK_IN_CHECK = -1;
+	
+	public final static int WHITE_IN_CHECKMATE = 2;
+	public final static int BLACK_IN_CHECKMATE = -2;
+	
+	public final static int NOBODY_IN_CHECK = 0;
 
 	public Partie() {
 		this.plateau = new Plateau();
@@ -97,41 +105,53 @@ public class Partie extends Observable {
 
 		Plateau plateauTmp = null;
 		plateauTmp = this.plateau.clone();
-
-		if (roiEstEnMat(plateauTmp, activePlayerPieces, otherPlayerPieces, king)) {
-			return true;
+		
+		Piece checkPiece = isKingInCheck(plateauTmp, activePlayerPieces, otherPlayerPieces, king);
+		if (checkPiece != null) {  // dans le cas ou le roi ne peut plus rien faire
+			// on regarde si la piece responsable peut etre mangée
+			Piece predator = whoCanEatTarget(plateauTmp, otherPlayerPieces, checkPiece);
+			if(predator == null) // si personne ne peut manger la pièce responsable
+				return true;
 		}
 
 		return false;
 	}
 
-	public boolean roiEstEnMat(Plateau plat, ArrayList<Piece> ActivesPieces, ArrayList<Piece> oponentPieces,
+	/**
+	 * @param plat The board to simulate the moves
+	 * @param playerPieces The player's pieces
+	 * @param oponentPieces The oponent's pieces
+	 * @param kingToTest The king of the current player
+	 * @return The piece responsible of the check, null otherwise
+	 */
+	public Piece isKingInCheck(Plateau plat, ArrayList<Piece> playerPieces, ArrayList<Piece> oponentPieces,
 			Piece kingToTest) {
-		for (Piece pieceJA : ActivesPieces) {
+		for (Piece pieceJA : playerPieces) {
 			for (Position posJA : pieceJA.getAvailablePositions()) {
-				plat.cases[posJA.x][posJA.y].addPiece(pieceJA); // on simule le déplacement 
-				if (!canBeEaten(plat, oponentPieces, kingToTest)) {
-					return false;
+				plat.cases[posJA.x][posJA.y].addPiece(pieceJA); // on simule le déplacement
+				Piece ret = whoCanEatTarget(plat, oponentPieces, kingToTest);
+				if ( ret != null) {
+					return ret;
 				}
 
 			}
 		}
-		return true;
+		return null;
 	}
 
-	public boolean canBeEaten(Plateau plat, List<Piece> piecesToTest, Piece target) {
+	public Piece whoCanEatTarget(Plateau plat, List<Piece> piecesToTest, Piece target) {
 		// On vÃ©rifie si une piece adverse peut allez sur la case de la cible
 		for (Piece piece : piecesToTest) {
 			for (Position pos : piece.getAvailablePositions()) {
-				if (pos.x == target.position.x && pos.y == target.position.y) {
-					return true;
+				if (pos.equals(target.position)) {
+					return piece;
 				}
 			}
 		}
-		return false;
+		return null;
 	}
 
-	public List<Piece> getAllPieces() {
+	public ArrayList<Piece> getAllPieces() {
 		ArrayList<Piece> ret = new ArrayList<>();
 
 		ArrayList<Piece> blackPieces = (ArrayList<Piece>) getBlackPieces();
@@ -195,12 +215,11 @@ public class Partie extends Observable {
 		ArrayList<Piece> blackPieces = (ArrayList<Piece>) getBlackPieces();
 
 		// On doit verifier si y a echec et math
-
 		if (verifCheckMate(whitesTurn)) {
 			if (whitesTurn)
-				this.gameStatus = -1;
+				this.gameStatus = -2;
 			else
-				this.gameStatus = 1;
+				this.gameStatus = 2;
 			return;
 		}
 
