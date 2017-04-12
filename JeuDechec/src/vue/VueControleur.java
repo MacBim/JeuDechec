@@ -179,12 +179,12 @@ public class VueControleur extends Application implements ObserveurEchec {
 
 	private void displayEndGamePopup(int gameStatus) {
 		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Jeu d'�chec");
-		alert.setHeaderText("La partie est termin�e.");
+		alert.setTitle("Jeu d'echec");
+		alert.setHeaderText("La partie est terminee.");
 		if (gameStatus == Partie.WHITE_IN_CHECK || gameStatus == Partie.WHITE_IN_CHECKMATE) // blanc
-			alert.setContentText("Les blancs ont gagn�s !");
+			alert.setContentText("Les blancs ont gagnes !");
 		else // noir
-			alert.setContentText("Les noirs ont gagn�s !");
+			alert.setContentText("Les noirs ont gagnes !");
 		alert.showAndWait();
 	}
 
