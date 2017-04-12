@@ -79,8 +79,9 @@ public class JoueurHumain extends Joueur {
 																	// y servent
 																	// a rien
 			}
-			this.partie.updateGameStatus();
+			
 			this.partie.switchSide(); // on change de tour
+			this.partie.updateGameStatus();
 		}
 		this.partie.notifyAllObservers();
 
