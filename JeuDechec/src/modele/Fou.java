@@ -72,19 +72,6 @@ public class Fou extends Piece {
 		}
 		else return false;
 	}
-
-	@Override
-	public void appliquerCoup(Coup coup) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void coupValide(Coup coup) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	
 	public boolean caseOccupable(int x, int y){
 		if(this.plateau.cases[x][y].piece.couleur == this.couleur)
@@ -92,9 +79,4 @@ public class Fou extends Piece {
 		return true;
 	}
 
-	@Override
-	public boolean getDirValide(Coup coup) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

@@ -97,14 +97,14 @@ public class Partie extends Observable {
 		}
 		
 		
-		/* si le roi peut bouger,  vérifier si ses positions ne sont pas toutes compromises */
+		/* si le roi peut bouger,  vï¿½rifier si ses positions ne sont pas toutes compromises */
 		ArrayList<Position> kingMoves = king.getAvailablePositions();
-		ArrayList<Piece> indirectPredators = new ArrayList<>(); // pièces qui peuvent le manger a toutes ses positions
+		ArrayList<Piece> indirectPredators = new ArrayList<>(); // piï¿½ces qui peuvent le manger a toutes ses positions
 		for(Position p : kingMoves){
-			Roi tmp = new Roi(this.whitesTurn, this.plateau, p); // on simule le déplacement
+			Roi tmp = new Roi(this.whitesTurn, this.plateau, p); // on simule le dï¿½placement
 			ArrayList<Piece> tmpPredators = whoCanEatTarget(oponentPieces, tmp);
-			if(tmpPredators.size() != 0){ // le roi peut etre mangé peut importe ou il va
-				for(Piece predator : tmpPredators){ // on ajoute les prédateurs <=> les pieces qui PEUVENT le manger dans le futur
+			if(tmpPredators.size() != 0){ // le roi peut etre mangï¿½ peut importe ou il va
+				for(Piece predator : tmpPredators){ // on ajoute les prï¿½dateurs <=> les pieces qui PEUVENT le manger dans le futur
 					if(!indirectPredators.contains(predator)){
 						indirectPredators.add(predator);
 					}
@@ -114,7 +114,7 @@ public class Partie extends Observable {
 		
 		boolean kingCantMove = false;
 		
-		if(indirectPredators.size() != 0){ // si au moins une pièce peut le manger a ses positions
+		if(indirectPredators.size() != 0){ // si au moins une piï¿½ce peut le manger a ses positions
 			kingCantMove = true;
 			System.out.println("king cant move");
 		}
@@ -122,18 +122,18 @@ public class Partie extends Observable {
 		
 		ArrayList<Piece> directPredators = whoCanEatTarget(oponentPieces,king);
 		
-		/* on recherche quelles pièces parmis celles de l'adversaire peuvent manger le Roi du joueur courant */
+		/* on recherche quelles piï¿½ces parmis celles de l'adversaire peuvent manger le Roi du joueur courant */
 		System.err.println("predator.size() " + directPredators.size());
 		if(directPredators.size() == 0) //si personne ne peut manger le roi, il n'est pas en echec et mat
 			return false;
 		
-		/* Maintenant, parmis les pièces du joueur, les quelles peuvent manger le prédateur ? */	
+		/* Maintenant, parmis les piï¿½ces du joueur, les quelles peuvent manger le prï¿½dateur ? */	
 		ArrayList<Piece> directPredatorsEliminated = new ArrayList<>();
 		
-		for(Piece predator : directPredators){ // pour chaque prédateur DIRECT...
-			for(Piece p : playersPieces){ // on regarde pour toutes les pièces du joueur si...
-				for(Position pos : p.getAvailablePositions()){ // chaques positions disponnibles des pièces...
-					// ... qui éliminent (mange) un prédateur (pas déja éliminé)
+		for(Piece predator : directPredators){ // pour chaque prï¿½dateur DIRECT...
+			for(Piece p : playersPieces){ // on regarde pour toutes les piï¿½ces du joueur si...
+				for(Position pos : p.getAvailablePositions()){ // chaques positions disponnibles des piï¿½ces...
+					// ... qui ï¿½liminent (mange) un prï¿½dateur (pas dï¿½ja ï¿½liminï¿½)
 					if(pos.equals(predator.position) && !directPredatorsEliminated.contains(predator)){ // 
 						directPredatorsEliminated.add(predator);
 					}
@@ -157,7 +157,7 @@ public class Partie extends Observable {
 				}
 			}
 		}
-		return ret; // la liste des prédateur de target
+		return ret; // la liste des prï¿½dateur de target
 	}
 
 	public ArrayList<Piece> getAllPieces() {
@@ -262,6 +262,11 @@ public class Partie extends Observable {
 
 	public void switchSide() {
 		this.whitesTurn = !this.whitesTurn;
+	}
+	
+	public void promote(Piece c){
+		Position pos = c.position;
+		
 	}
 
 }

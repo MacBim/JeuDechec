@@ -15,12 +15,6 @@ public abstract class Piece {
 
 	public abstract ArrayList<Position> getAvailablePositions();
 
-	public abstract boolean getDirValide(Coup coup);
-
-	public abstract void appliquerCoup(Coup coup);
-
-	public abstract void coupValide(Coup coup);
-
 	public abstract boolean caseOccupable(int x, int y);
 
 	public void setImagePath() {

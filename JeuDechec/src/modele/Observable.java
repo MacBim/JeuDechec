@@ -8,14 +8,10 @@ public abstract class Observable {
 	
 	public void subscribe(ObserveurEchec obs){
 		this.observers.add(obs);
-		System.out.println(this.observers.size());
+		//System.out.println(this.observers.size());
 	}
 	
-	public void notifyAllObservers(){
-//		for(ObserveurEchec obs : this.observers){
-//			obs.notifyObserver();
-//		}
-		
+	public void notifyAllObservers(){		
 		for(int i = 0; i < this.observers.size(); i++){
 			this.observers.get(i).notifyObserver();
 		}

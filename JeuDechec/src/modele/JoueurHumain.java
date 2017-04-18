@@ -67,6 +67,17 @@ public class JoueurHumain extends Joueur {
 				// du
 				// mouvement
 				c.piece.position = c.position;
+				
+				
+				// Si c'est un pion, et qu'il peut être promus:
+				if (c.piece.getClass().getSimpleName() == "Pion"){
+					if (c.piece.couleur && c.piece.position.x == 0 ||
+						!c.piece.couleur && c.piece.position.x == 7){
+						
+						this.partie.promote(c.piece);
+					}
+						
+				}
 
 				for (int x = 0; x < 8; x++) {
 					for (int y = 0; y < 8; y++) {
@@ -81,6 +92,7 @@ public class JoueurHumain extends Joueur {
 			}
 			
 			this.partie.switchSide(); // on change de tour
+		
 			this.partie.updateGameStatus();
 		}
 		this.partie.notifyAllObservers();

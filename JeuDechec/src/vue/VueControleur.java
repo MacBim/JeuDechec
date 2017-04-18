@@ -1,5 +1,9 @@
 package vue;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import javafx.application.Application;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -9,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -186,6 +191,27 @@ public class VueControleur extends Application implements ObserveurEchec {
 		else // noir
 			alert.setContentText("Les noirs ont gagnes !");
 		alert.showAndWait();
+	}
+	
+	private String displayPromotePopUp(){
+		List<String> choices = new ArrayList<>();
+		choices.add("Reine");
+		choices.add("Tour");
+		choices.add("Cavalier");
+		choices.add("Fou");
+		
+		ChoiceDialog<String> dialog = new ChoiceDialog<>("Reine", choices);
+		dialog.setTitle("Promotion");
+		dialog.setHeaderText("Un de vos pions peut être promus!");
+		dialog.setContentText("Choisissez en quoi:");
+
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()){
+		    return(result.get());
+		}
+		else
+			return "Reine";
+
 	}
 
 }

@@ -29,19 +29,20 @@ public class Roi extends Piece {
 
 		int i = 0;
 		for (Position thePosition : defaultPositions) {
-			if (caseOccupable(thePosition)) {
+			if (caseOccupable(thePosition.x, thePosition.y)) {
 				pos.add(thePosition);
 			}
 		}
 
 		return pos;
 	}
-
-	public boolean caseOccupable(Position pos) {
-		if (pos.x > 7 || pos.x < 0 || pos.y > 7 || pos.y < 0)
+	
+	@Override
+	public boolean caseOccupable(int x, int y) {
+		if (x > 7 || x < 0 || y > 7 || y < 0)
 			return false;
-		else if (this.plateau.cases[pos.x][pos.y].piece != null) {
-			if (this.plateau.cases[pos.x][pos.y].piece.couleur == this.couleur) {
+		else if (this.plateau.cases[x][y].piece != null) {
+			if (this.plateau.cases[x][y].piece.couleur == this.couleur) {
 				return false;
 			}
 			
@@ -59,30 +60,6 @@ public class Roi extends Piece {
 
 		return true;
 
-	}
-
-	@Override
-	public boolean caseOccupable(int x, int y) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean getDirValide(Coup coup) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void appliquerCoup(Coup coup) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void coupValide(Coup coup) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	
@@ -108,4 +85,5 @@ public class Roi extends Piece {
 		}
 		return false;
 	}
+
 }

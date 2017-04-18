@@ -78,22 +78,6 @@ public class Cavalier extends Piece {
 	}
 
 	@Override
-	public boolean getDirValide(Coup coup) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void appliquerCoup(Coup coup) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void coupValide(Coup coup) {
-	}
-
-	@Override
 	public boolean caseOccupable(int x, int y) {
 		if (x > 7 || y > 7 || y < 0 || x < 0){
 			return false;

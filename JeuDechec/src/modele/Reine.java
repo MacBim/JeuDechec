@@ -18,24 +18,6 @@ public class Reine extends Piece {
 	}
 
 	@Override
-	public boolean getDirValide(Coup coup) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void appliquerCoup(Coup coup) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void coupValide(Coup coup) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public ArrayList<Position> getAvailablePositions() {
 		ArrayList<Position> pos = new ArrayList<>();
 		int xtmp = this.position.x;
